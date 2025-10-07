@@ -19,6 +19,7 @@ const Sidebar = () => {
         { name: "Product List", path: "/admin/products/", icon: <List className="w-4 h-4" /> },
       ],
     },
+    { name: "Transactions", icon: <List className="w-5 h-5" />, path: "/admin/transactions" },
   ]
 
   const handleLogout = async () => {

@@ -1,18 +1,34 @@
 "use client"
-import React, { useState } from "react"
-import { Image, Tag, Layers, Package, DollarSign } from "lucide-react"
+import React, { useState, useEffect } from "react"
+import { Image, Tag, Layers, Package, DollarSign, Hash } from "lucide-react"
 
 const Create = () => {
   const [formData, setFormData] = useState({
+    code: "",
     image: "",
     name: "",
-    category: "Electronics",
+    category: "",
     stock: "",
     price: "",
   })
   const [preview, setPreview] = useState(null)
+  const [categories, setCategories] = useState([])
+  const [loading, setLoading] = useState(false)
 
-  const categories = ["Electronics", "Fashion", "Books", "Food", "Toys"]
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch("/api/products/get-categories")
+        const data = await res.json()
+        setCategories(data)
+        if (data.length > 0)
+          setFormData((prev) => ({ ...prev, category: data[0].name }))
+      } catch (error) {
+        console.error("Failed to fetch categories:", error)
+      }
+    }
+    fetchCategories()
+  }, [])
 
   const handleChange = (e) => {
     const { name, value, files } = e.target
@@ -25,9 +41,49 @@ const Create = () => {
     }
   }
 
-  const handleSubmit = (e) => {
+  const generateCode = () => {
+    const randomCode = "PRD-" + Math.floor(100000 + Math.random() * 900000)
+    setFormData({ ...formData, code: randomCode })
+  }
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log("Form Data:", formData)
+    setLoading(true)
+    try {
+      const form = new FormData()
+      form.append("code", formData.code)
+      form.append("image", formData.image)
+      form.append("name", formData.name)
+      form.append("category", formData.category)
+      form.append("stock", formData.stock)
+      form.append("price", formData.price)
+
+      const res = await fetch("/api/products/create", {
+        method: "POST",
+        body: form,
+      })
+
+      const result = await res.json()
+      if (res.ok) {
+        alert("Product created successfully!")
+        setFormData({
+          code: "",
+          image: "",
+          name: "",
+          category: categories[0]?.name || "",
+          stock: "",
+          price: "",
+        })
+        setPreview(null)
+      } else {
+        alert(result.message || "Failed to create product.")
+      }
+    } catch (error) {
+      console.error("Error creating product:", error)
+      alert("An error occurred.")
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -64,6 +120,30 @@ const Create = () => {
 
       {/* RIGHT COLUMN - Product Details */}
       <div className="space-y-4">
+        {/* Product Code */}
+        <div>
+          <label className="flex items-center gap-2 text-sm mb-2">
+            <Hash size={18} /> Product Code
+          </label>
+          <div className="flex gap-2">
+            <input
+              type="text"
+              name="code"
+              value={formData.code}
+              readOnly
+              placeholder="Click generate to create code"
+              className="flex-1 p-2 bg-[#123458] text-[#F1EFEC] rounded-lg border border-[#D4C9BE] focus:outline-none"
+            />
+            <button
+              type="button"
+              onClick={generateCode}
+              className="px-4 py-2 bg-[#D4C9BE] text-[#030303] rounded-lg hover:opacity-90 transition"
+            >
+              Generate
+            </button>
+          </div>
+        </div>
+
         {/* Name Input */}
         <div>
           <label className="flex items-center gap-2 text-sm mb-2">
@@ -91,8 +171,8 @@ const Create = () => {
             className="w-full p-2 bg-[#123458] text-[#F1EFEC] rounded-lg border border-[#D4C9BE] focus:outline-none"
           >
             {categories.map((cat, i) => (
-              <option key={i} value={cat}>
-                {cat}
+              <option key={i} value={cat.name}>
+                {cat.name}
               </option>
             ))}
           </select>
@@ -131,9 +211,10 @@ const Create = () => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full mt-4 bg-[#D4C9BE] text-[#030303] py-2 rounded-lg font-semibold hover:opacity-90 transition"
+          disabled={loading}
+          className="w-full mt-4 bg-[#D4C9BE] text-[#030303] py-2 rounded-lg font-semibold hover:opacity-90 transition disabled:opacity-60"
         >
-          Save Product
+          {loading ? "Saving..." : "Save Product"}
         </button>
       </div>
     </form>
