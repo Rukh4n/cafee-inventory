@@ -1,8 +1,12 @@
+// src/app/products/categories/page.jsx
 "use client"
 import React, { useState, useEffect } from "react"
-import { Search, Trash2 } from "lucide-react"
 import Create from "./create"
 import Detail from "./detail"
+import SearchBar from "./componnents/SearchBar"
+import CreateCategoryModal from "./componnents/CreateCategoryModal"
+import DetailCategoryModal from "./componnents/DetailCategoryModal"
+import CategoryTable from "./componnents/CategoryTable"
 
 const Page = () => {
   const [showModal, setShowModal] = useState(false)
@@ -65,135 +69,34 @@ const Page = () => {
           Product Categories
         </h1>
 
-        <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
-          <form
-            onSubmit={handleSearch}
-            className="flex items-center bg-[#1C1C1C] border border-[#D4C9BE] rounded-lg overflow-hidden w-full sm:w-auto"
-          >
-            <input
-              type="text"
-              placeholder="Search categories..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="bg-transparent px-3 py-2 outline-none text-[#F1EFEC] w-full sm:w-64"
-            />
-            <button
-              type="submit"
-              className="px-3 py-2 bg-[#D4C9BE] text-[#030303] hover:bg-[#F1EFEC] transition"
-            >
-              <Search className="w-5 h-5" />
-            </button>
-          </form>
-
-          <button
-            onClick={() => setShowModal(true)}
-            className="bg-[#D4C9BE] text-[#030303] px-4 py-2 rounded-lg hover:bg-[#F1EFEC] transition w-full sm:w-auto"
-          >
-            Add Category
-          </button>
-        </div>
+        <SearchBar
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          handleSearch={handleSearch}
+          onAdd={() => setShowModal(true)}
+        />
       </div>
 
-      <div className="w-full overflow-x-auto border border-[#D4C9BE] rounded-lg">
-        <table className="min-w-full text-left border-collapse">
-          <thead className="bg-[#1C1C1C] text-[#D4C9BE] text-sm sm:text-base">
-            <tr>
-              <th className="p-3 border-b border-[#D4C9BE] whitespace-nowrap">#</th>
-              <th className="p-3 border-b border-[#D4C9BE] whitespace-nowrap">Name</th>
-              <th className="p-3 border-b border-[#D4C9BE] whitespace-nowrap">Created At</th>
-              <th className="p-3 border-b border-[#D4C9BE] whitespace-nowrap text-center">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="text-sm sm:text-base">
-            {categories.length > 0 ? (
-              categories.map((category, index) => (
-                <tr
-                  key={category.id}
-                  className="hover:bg-[#1F1F1F] transition-colors cursor-pointer"
-                >
-                  <td
-                    className="p-3 border-b border-[#D4C9BE] whitespace-nowrap"
-                    onClick={() => handleRowClick(category)}
-                  >
-                    {index + 1}
-                  </td>
-                  <td
-                    className="p-3 border-b border-[#D4C9BE] whitespace-nowrap"
-                    onClick={() => handleRowClick(category)}
-                  >
-                    {category.name}
-                  </td>
-                  <td
-                    className="p-3 border-b border-[#D4C9BE] whitespace-nowrap"
-                    onClick={() => handleRowClick(category)}
-                  >
-                    {new Date(category.createdAt).toLocaleString()}
-                  </td>
-                  <td className="p-3 border-b border-[#D4C9BE] text-center">
-                    <button
-                      onClick={() => handleDelete(category.id)}
-                      disabled={loading}
-                      className="p-2 bg-red-600 text-[#F1EFEC] rounded-lg hover:opacity-80 transition"
-                    >
-                      <Trash2 size={18} />
-                    </button>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td
-                  colSpan="4"
-                  className="text-center p-4 text-[#D4C9BE] italic"
-                >
-                  No categories found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+      <CategoryTable
+        categories={categories}
+        loading={loading}
+        onDelete={handleDelete}
+        onRowClick={handleRowClick}
+      />
 
-      {/* Modal Create */}
       {showModal && (
-        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 px-4">
-          <div className="bg-[#030303] rounded-2xl shadow-lg p-6 w-full max-w-md border border-[#D4C9BE]">
-            <div className="flex justify-between items-center mb-4 border-b border-[#D4C9BE] pb-2">
-              <h2 className="text-lg font-semibold text-[#F1EFEC]">Create Category</h2>
-              <button
-                onClick={() => setShowModal(false)}
-                className="text-[#F1EFEC] hover:text-[#D4C9BE] font-bold text-lg"
-              >
-                ✕
-              </button>
-            </div>
-            <div className="bg-[#123458] rounded-xl p-4">
-              <Create />
-            </div>
-          </div>
-        </div>
+        <CreateCategoryModal onClose={() => setShowModal(false)}>
+          <Create />
+        </CreateCategoryModal>
       )}
 
-      {/* Modal Detail */}
       {showDetailModal && selectedCategory && (
-        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 px-4">
-          <div className="bg-[#030303] rounded-2xl shadow-lg p-6 w-full max-w-md border border-[#D4C9BE]">
-            <div className="flex justify-between items-center mb-4 border-b border-[#D4C9BE] pb-2">
-              <h2 className="text-lg font-semibold text-[#F1EFEC]">
-                Category Detail
-              </h2>
-              <button
-                onClick={() => setShowDetailModal(false)}
-                className="text-[#F1EFEC] hover:text-[#D4C9BE] font-bold text-lg"
-              >
-                ✕
-              </button>
-            </div>
-            <div className="bg-[#123458] rounded-xl p-4">
-              <Detail category={selectedCategory} />
-            </div>
-          </div>
-        </div>
+        <DetailCategoryModal
+          onClose={() => setShowDetailModal(false)}
+          category={selectedCategory}
+        >
+          <Detail category={selectedCategory} />
+        </DetailCategoryModal>
       )}
     </div>
   )

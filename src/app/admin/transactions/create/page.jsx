@@ -1,6 +1,7 @@
 'use client'
 import React, { useState } from 'react'
-import { DollarSign } from 'lucide-react'
+import TransactionForm from './componnents/TransactionForm'
+import SelectedProductTable from './componnents/SelectedproductTable'
 
 const Page = () => {
   const [formData, setFormData] = useState({
@@ -80,7 +81,12 @@ const Page = () => {
       const res = await fetch('/api/transactions/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ products: selectedProducts, cashGiven: formData.cashGiven, totalPrice: formData.totalPrice, change: formData.change }),
+        body: JSON.stringify({
+          products: selectedProducts,
+          cashGiven: formData.cashGiven,
+          totalPrice: formData.totalPrice,
+          change: formData.change,
+        }),
       })
       if (res.ok) {
         alert('Transaction submitted successfully!')
@@ -99,114 +105,20 @@ const Page = () => {
     <div className="p-6 bg-[#030303] min-h-screen text-[#F1EFEC]">
       <h1 className="text-2xl font-bold mb-6">Add Transaction</h1>
       <div className="flex gap-6 w-full max-w-6xl">
-        <form onSubmit={handleSubmit} className="flex-1 flex flex-col gap-4">
-          <div className="flex flex-col relative mb-4">
-            <label className="mb-1">Search Product</label>
-            <input
-              type="text"
-              name="searchQuery"
-              value={searchQuery}
-              onChange={handleChange}
-              className="px-3 py-2 rounded border border-[#D4C9BE] bg-[#123458] text-[#F1EFEC]"
-              autoComplete="off"
-            />
-            {productSuggestions.length > 0 && (
-              <ul className="absolute top-full left-0 right-0 bg-[#123458] border border-[#D4C9BE] rounded mt-1 max-h-40 overflow-y-auto z-10">
-                {productSuggestions.map((product) => (
-                  <li
-                    key={product.id}
-                    onClick={() => handleSelectProduct(product)}
-                    className="px-3 py-2 hover:bg-[#D4C9BE] hover:text-[#030303] cursor-pointer"
-                  >
-                    {product.name} - Rp{product.price}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-
-          <div className="flex flex-col gap-4 max-w-md">
-            <div className="flex flex-col">
-              <label className="mb-1 flex items-center gap-2">
-                <DollarSign className="w-4 h-4" /> Cash Given
-              </label>
-              <input
-                type="number"
-                name="cashGiven"
-                value={formData.cashGiven}
-                onChange={handleChange}
-                className="px-3 py-2 rounded border border-[#D4C9BE] bg-[#123458] text-[#F1EFEC]"
-              />
-            </div>
-
-            <div className="flex flex-col">
-              <label className="mb-1 flex items-center gap-2">
-                <DollarSign className="w-4 h-4" /> Total Price
-              </label>
-              <input
-                type="number"
-                value={formData.totalPrice}
-                readOnly
-                className="px-3 py-2 rounded border border-[#D4C9BE] bg-[#123458] text-[#F1EFEC]"
-              />
-            </div>
-
-            <div className="flex flex-col">
-              <label className="mb-1 flex items-center gap-2">
-                <DollarSign className="w-4 h-4" /> Change
-              </label>
-              <input
-                type="number"
-                value={formData.change}
-                readOnly
-                className="px-3 py-2 rounded border border-[#D4C9BE] bg-[#123458] text-[#F1EFEC]"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="px-4 py-2 bg-[#D4C9BE] text-[#030303] rounded hover:bg-[#F1EFEC] hover:text-[#030303] transition"
-            >
-              Submit Transaction
-            </button>
-          </div>
-        </form>
+        <TransactionForm
+          formData={formData}
+          searchQuery={searchQuery}
+          productSuggestions={productSuggestions}
+          handleChange={handleChange}
+          handleSubmit={handleSubmit}
+          handleSelectProduct={handleSelectProduct}
+        />
 
         {selectedProducts.length > 0 && (
-          <div className="flex-1">
-            <table className="w-full text-[#F1EFEC] border border-[#D4C9BE]">
-              <thead>
-                <tr className="bg-[#123458]">
-                  <th className="px-3 py-2 border border-[#D4C9BE]">Product</th>
-                  <th className="px-3 py-2 border border-[#D4C9BE]">Price</th>
-                  <th className="px-3 py-2 border border-[#D4C9BE]">Quantity</th>
-                  <th className="px-3 py-2 border border-[#D4C9BE]">Subtotal</th>
-                </tr>
-              </thead>
-              <tbody>
-                {selectedProducts.map((product) => (
-                  <tr key={product.id}>
-                    <td className="px-3 py-2 border border-[#D4C9BE]">{product.name}</td>
-                    <td className="px-3 py-2 border border-[#D4C9BE]">
-                      <DollarSign className="inline w-4 h-4 mr-1" /> Rp{product.price}
-                    </td>
-                    <td className="px-3 py-2 border border-[#D4C9BE]">
-                      <input
-                        type="number"
-                        value={product.quantity}
-                        min="1"
-                        className="w-20 px-2 py-1 rounded border border-[#D4C9BE] bg-[#123458] text-[#F1EFEC]"
-                        onChange={(e) => handleQuantityChange(product.id, e.target.value)}
-                      />
-                    </td>
-                    <td className="px-3 py-2 border border-[#D4C9BE]">
-                      <DollarSign className="inline w-4 h-4 mr-1" /> Rp{product.price * product.quantity}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <SelectedProductTable
+            selectedProducts={selectedProducts}
+            handleQuantityChange={handleQuantityChange}
+          />
         )}
       </div>
     </div>
