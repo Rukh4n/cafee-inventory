@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1759811001001,
+    "name": "Biji Kopi Arabika",
+    "kategori_id": 1759809674768,
+    "stok": 5000,
+    "satuan": "gram"
+  },
+  {
+    "id": 1759811002002,
+    "name": "Susu Full Cream",
+    "kategori_id": 1759809789192,
+    "stok": 20,
+    "satuan": "liter"
+  },
+  {
+    "id": 1759811003003,
+    "name": "Gula Aren",
+    "kategori_id": 1759809789192,
+    "stok": 3000,
+    "satuan": "gram"
+  },
+  {
+    "id": 1759811004004,
+    "name": "Teh Hitam",
+    "kategori_id": 1759809690043,
+    "stok": 2000,
+    "satuan": "gram"
+  },
+  {
+    "id": 1759811005005,
+    "name": "Roti Croissant",
+    "kategori_id": 1759809758882,
+    "stok": 50,
+    "satuan": "pcs"
+  },
+  {
+    "id": 1759820222952,
+    "name": "Teh Pucuk",
+    "kategori_id": 1759809719430,
+    "stok": 20,
+    "satuan": "Kardus"
+  },
+  {
+    "id": 1759820306716,
+    "name": "Teh Ge",
+    "kategori_id": 1759809719430,
+    "stok": 20,
+    "satuan": "Kardus"
+  },
+  {
+    "id": 1759949196948,
+    "name": "Es Teh Manis",
+    "kategori_id": 1759809719430,
+    "stok": 200,
+    "satuan": "Kardus"
+  }
+]
