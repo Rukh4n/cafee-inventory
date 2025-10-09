@@ -1,13 +1,12 @@
+// src/app/products/categories/detail.jsx
 "use client"
 import React, { useState } from "react"
-import { useRouter } from "next/navigation"
 import { CalendarDays, Tag, Edit3, Save, X } from "lucide-react"
 
-const Detail = ({ category }) => {
+const Detail = ({ category, onSuccess }) => {
   const [isEditing, setIsEditing] = useState(false)
   const [editedCategory, setEditedCategory] = useState(category || {})
   const [loading, setLoading] = useState(false)
-  const router = useRouter()
 
   if (!category) return null
 
@@ -28,7 +27,7 @@ const Detail = ({ category }) => {
 
       if (res.ok) {
         setIsEditing(false)
-        router.refresh()
+        onSuccess?.() // akan tutup modal + reload halaman
       }
     } catch (error) {
       console.error("Failed to update category:", error)

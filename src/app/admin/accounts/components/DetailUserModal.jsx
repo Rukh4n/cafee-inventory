@@ -15,7 +15,7 @@ const DetailUserModal = ({ user, onClose, onDelete }) => {
           ✕
         </button>
         <h2 className="text-xl font-semibold mb-4 text-center">User Details</h2>
-        <Detail user={user} />
+        <Detail user={user} onSuccess={() => window.location.reload()} />
         <button onClick={() => onDelete(user.id)} className={buttonClass}>
           Delete User
         </button>

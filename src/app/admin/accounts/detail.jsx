@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { User, Mail, Lock, Users, Edit2, X, Save, Calendar } from 'lucide-react'
 
-const Detail = ({ user }) => {
+const Detail = ({ user, onSuccess }) => {
   const [isEditing, setIsEditing] = useState(false)
   const [formData, setFormData] = useState({
     name: user?.name || '',
@@ -40,6 +40,7 @@ const Detail = ({ user }) => {
       console.log('Success:', data)
       alert('User updated successfully!')
       setIsEditing(false)
+      onSuccess?.()
     } catch (error) {
       console.error('Error:', error)
       alert('Failed to update user')

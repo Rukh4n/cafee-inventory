@@ -1,7 +1,8 @@
 // src/app/products/categories/componnents/DetailCategoryModal.jsx
 import React from "react"
+import Detail from "../detail"
 
-const DetailCategoryModal = ({ onClose, category, children }) => {
+const DetailCategoryModal = ({ onClose, category }) => {
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 px-4">
       <div className="bg-[#030303] rounded-2xl shadow-lg p-6 w-full max-w-md border border-[#D4C9BE]">
@@ -16,7 +17,15 @@ const DetailCategoryModal = ({ onClose, category, children }) => {
             ✕
           </button>
         </div>
-        <div className="bg-[#123458] rounded-xl p-4">{children}</div>
+        <div className="bg-[#123458] rounded-xl p-4">
+          <Detail
+            category={category}
+            onSuccess={() => {
+              onClose()
+              window.location.reload()
+            }}
+          />
+        </div>
       </div>
     </div>
   )

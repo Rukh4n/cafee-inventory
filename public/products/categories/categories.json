@@ -14,5 +14,11 @@
     "id": 1759845869576,
     "name": "Makanan Ringan",
     "createdAt": "2025-10-07T14:04:29.577Z"
+  },
+  {
+    "id": 1759886119181,
+    "name": "Pembersih Mobil",
+    "createdAt": "2025-10-08T01:15:19.182Z",
+    "updatedAt": "2025-10-08T01:27:45.981Z"
   }
 ]

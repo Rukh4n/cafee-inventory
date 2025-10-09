@@ -17,7 +17,7 @@ const CreateUserModal = ({ onClose }) => {
         <h2 className="text-xl font-semibold mb-4 text-center">
           Add New Account
         </h2>
-        <Create onClose={onClose} />
+        <Create onClose={onClose} onSuccess={() => window.location.reload()} />
       </div>
     </div>
   )

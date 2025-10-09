@@ -75,6 +75,7 @@ const Create = () => {
           price: "",
         })
         setPreview(null)
+        window.location.reload() // 🔥 refresh halaman setelah upload selesai
       } else {
         alert(result.message || "Failed to create product.")
       }

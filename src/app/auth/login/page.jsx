@@ -1,95 +1,93 @@
 "use client"
+
 import React, { useState } from "react"
+import { signIn } from "next-auth/react"
+import { useRouter } from "next/navigation"
 import { Mail, Lock } from "lucide-react"
 
 const Page = () => {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  })
+  const router = useRouter()
+  const [formData, setFormData] = useState({ email: "", password: "" })
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState("")
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    })
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      })
-      const data = await res.json()
-      if (res.ok) {
-        // Simpan data user di localStorage
-        localStorage.setItem("user", JSON.stringify(data.user))
-        window.location.href = "/admin/dashboard"
-      }
-    } catch (error) {
-      console.error("Error:", error)
+    setLoading(true)
+    setError("")
+
+    const res = await signIn("credentials", {
+      redirect: false,
+      email: formData.email,
+      password: formData.password,
+    })
+
+    setLoading(false)
+
+    if (res?.error) {
+      setError("Email atau password salah!")
+    } else {
+      router.push("/")
     }
   }
 
   return (
-    <div
-      className="min-h-screen flex items-center justify-center p-6"
-      style={{ backgroundColor: "#123458", color: "#F1EFEC" }}
-    >
-      <div
-        className="w-full max-w-md p-6 rounded-xl shadow-lg"
-        style={{ backgroundColor: "#030303" }}
-      >
-        <h1
-          className="text-2xl font-bold mb-6 text-center"
-          style={{ color: "#D4C9BE" }}
-        >
-          Login
-        </h1>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <div
-            className="flex items-center gap-2 border rounded-lg px-3 py-2"
-            style={{ borderColor: "#D4C9BE", backgroundColor: "#123458" }}
-          >
-            <Mail className="w-5 h-5" style={{ color: "#F1EFEC" }} />
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleChange}
-              className="flex-1 bg-transparent outline-none placeholder-gray-300"
-              style={{ color: "#F1EFEC" }}
-              required
-            />
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#030303] to-[#D4C9BE] text-[#F1EFEC]">
+      <div className="bg-[#030303] p-8 rounded-2xl shadow-lg w-full max-w-md border border-[#D4C9BE]">
+        <h1 className="text-2xl font-bold text-center mb-6 text-[#F1EFEC]">Login</h1>
+
+        {error && (
+          <div className="bg-red-600/20 border border-red-500 text-red-400 text-sm rounded-md p-2 mb-4 text-center">
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div className="flex flex-col">
+            <label className="text-sm mb-2 text-[#F1EFEC]">Email</label>
+            <div className="flex items-center bg-[#030303] border border-[#D4C9BE] rounded-lg px-3">
+              <Mail className="w-5 h-5 text-[#D4C9BE] mr-2" />
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Masukkan email..."
+                required
+                className="bg-transparent w-full p-2 outline-none text-[#F1EFEC] placeholder-[#D4C9BE]"
+              />
+            </div>
           </div>
 
-          <div
-            className="flex items-center gap-2 border rounded-lg px-3 py-2"
-            style={{ borderColor: "#D4C9BE", backgroundColor: "#123458" }}
-          >
-            <Lock className="w-5 h-5" style={{ color: "#F1EFEC" }} />
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
-              className="flex-1 bg-transparent outline-none placeholder-gray-300"
-              style={{ color: "#F1EFEC" }}
-              required
-            />
+          <div className="flex flex-col">
+            <label className="text-sm mb-2 text-[#F1EFEC]">Password</label>
+            <div className="flex items-center bg-[#030303] border border-[#D4C9BE] rounded-lg px-3">
+              <Lock className="w-5 h-5 text-[#D4C9BE] mr-2" />
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Masukkan password..."
+                required
+                className="bg-transparent w-full p-2 outline-none text-[#F1EFEC] placeholder-[#D4C9BE]"
+              />
+            </div>
           </div>
 
           <button
             type="submit"
-            className="mt-4 font-medium py-2 rounded-lg transition"
-            style={{
-              backgroundColor: "#D4C9BE",
-              color: "#030303",
-            }}
+            disabled={loading}
+            className="w-full bg-[#D4C9BE] hover:opacity-90 transition rounded-lg py-2 font-semibold text-[#030303]"
           >
-            Login
+            {loading ? "Sedang masuk..." : "Masuk"}
           </button>
         </form>
       </div>

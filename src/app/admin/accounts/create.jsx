@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { User, Mail, Lock, Users } from 'lucide-react'
 
-const Create = () => {
+const Create = (props) => {
   const [formData, setFormData] = useState({
     full_name: '',
     email: '',
@@ -34,9 +34,9 @@ const Create = () => {
 
       const data = await response.json()
       console.log('Success:', data)
-      // Reset form jika perlu
       setFormData({ full_name: '', email: '', role: '', password: '' })
       alert('Account created successfully!')
+      props.onSuccess?.()
     } catch (error) {
       console.error('Error:', error)
       alert('Failed to create account')

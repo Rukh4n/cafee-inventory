@@ -1,12 +1,10 @@
 "use client"
 import React, { useState } from "react"
-import { useRouter } from "next/navigation"
 import { Tag, Save } from "lucide-react"
 
-const Create = () => {
+const Create = ({ onSuccess }) => {
   const [name, setName] = useState("")
   const [loading, setLoading] = useState(false)
-  const router = useRouter()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -26,7 +24,7 @@ const Create = () => {
       console.log("Success:", data)
       alert("Category created successfully!")
       setName("")
-      router.push("/admin/products/categories")
+      onSuccess?.()
     } catch (error) {
       console.error("Error:", error)
       alert("Error creating category!")

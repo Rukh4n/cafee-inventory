@@ -1,6 +1,7 @@
 "use client"
 import React, { useState } from "react"
 import { usePathname, useRouter } from "next/navigation"
+import { signOut } from "next-auth/react"
 import { Users, Folder, LogOut, Box, List } from "lucide-react"
 
 const Sidebar = () => {
@@ -22,19 +23,8 @@ const Sidebar = () => {
     { name: "Transactions", icon: <List className="w-5 h-5" />, path: "/admin/transactions" },
   ]
 
-  const handleLogout = async () => {
-    try {
-      const res = await fetch("/api/auth/logout", { method: "POST" })
-      if (res.ok) {
-        localStorage.removeItem("user")
-        window.location.href = "/auth/login"
-      } else {
-        alert("Logout failed!")
-      }
-    } catch (error) {
-      console.error("Logout error:", error)
-      alert("An error occurred during logout.")
-    }
+  const handleLogout = () => {
+    signOut({ callbackUrl: "/auth/login" })
   }
 
   const isRouteActive = (path) => pathname.startsWith(path)

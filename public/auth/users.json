@@ -4,15 +4,15 @@
     "name": "Nur Rukhan ",
     "email": "nurrukhans@gmail.com",
     "password": "asdfasdf",
-    "role": "staff",
+    "role": "admin",
     "createdAt": "2025-10-06T00:29:26.216Z"
   },
   {
-    "id": 1759731384633,
-    "name": "rukhan",
+    "id": 1759979169531,
+    "name": "Rukhan",
     "email": "rukhan@gmail.com",
     "password": "asdfasdf",
-    "role": "staff",
-    "createdAt": "2025-10-06T06:16:24.633Z"
+    "role": "guest",
+    "createdAt": "2025-10-09T03:06:09.531Z"
   }
 ]
