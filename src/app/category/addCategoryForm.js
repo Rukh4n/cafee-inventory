@@ -1,10 +1,10 @@
 'use client';
 
 import { useActionState } from 'react';
-import { addKategori } from '../action/kategoriaction';
+import { addCategory } from '../action/categoryAction';
 
-export default function AddKategoriForm() {
-    const [state, formAction, pending] = useActionState(addKategori, {
+export default function AddCategoryForm() {
+    const [state, formAction, pending] = useActionState(addCategory, {
         success: null,
         message: '',
     });

@@ -3,10 +3,10 @@
 import { useState, useEffect } from 'react';
 import { useActionState } from 'react';
 import { useRouter } from 'next/navigation';
-import { deleteKategoriAction } from '../action/kategoriaction';
-import EditKategoriForm from './editcategorieform';
+import { deleteCategory } from '../action/categoryAction';
+import EditCategoryForm from './editCategoryForm';
 
-export default function KategoriList({ kategori }) {
+export default function CategoryList({ category }) {
     const [editing, setEditing] = useState(null);
     const [confirmDelete, setConfirmDelete] = useState(null);
     const router = useRouter();
@@ -15,7 +15,7 @@ export default function KategoriList({ kategori }) {
     const [state, formAction, isPending] = useActionState(
         async (prevState, formData) => {
             const id = parseInt(formData.get('id'));
-            return await deleteKategoriAction(id);
+            return await deleteCategory(id);
         },
         null
     );
@@ -28,12 +28,12 @@ export default function KategoriList({ kategori }) {
         }
     }, [state?.success, router]);
 
-    const kategoriEdit = kategori.find((item) => item.id === editing);
+    const categoryEdit = category.find((item) => item.id === editing);
 
     return (
         <div>
             <ul className="mt-5 space-y-3">
-                {kategori.map((item) => (
+                {category.map((item) => (
                     <li
                         key={item.id}
                         className="flex items-center justify-between p-3 rounded-lg shadow-md border"
@@ -72,14 +72,14 @@ export default function KategoriList({ kategori }) {
             </ul>
 
             {/* Modal Edit */}
-            {editing && kategoriEdit && (
+            {editing && categoryEdit && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
                     <div className="bg-white rounded-xl p-6 w-full max-w-md shadow-lg">
                         <h2 className="text-xl font-bold text-[#123458] mb-4">
                             Edit Kategori
                         </h2>
-                        <EditKategoriForm
-                            kategori={kategoriEdit}
+                        <EditCategoryForm
+                            category={categoryEdit}
                             onCancel={() => setEditing(null)}
                         />
                     </div>
@@ -97,10 +97,9 @@ export default function KategoriList({ kategori }) {
                             <button
                                 onClick={async () => {
                                     try {
-                                        const result =
-                                            await deleteKategoriAction(
-                                                confirmDelete
-                                            );
+                                        const result = await deleteCategory(
+                                            confirmDelete
+                                        );
                                         if (result.success) {
                                             setConfirmDelete(null); // tutup modal
                                             router.refresh(); // refresh data

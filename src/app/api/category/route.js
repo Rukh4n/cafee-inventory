@@ -6,21 +6,21 @@ const filePath = path.join(process.cwd(), 'public', 'data', 'categories.json');
 // GET semua kategori
 export async function GET() {
     const data = fs.readFileSync(filePath, 'utf8');
-    const kategori = JSON.parse(data);
-    return Response.json(kategori);
+    const category = JSON.parse(data);
+    return Response.json(category);
 }
 
 // POST tambah kategori baru
 export async function POST(request) {
-    const newKategori = await request.json();
+    const newCategory = await request.json();
     const data = fs.readFileSync(filePath, 'utf8');
-    const kategori = JSON.parse(data);
+    const category = JSON.parse(data);
 
     const newId =
-        kategori.length > 0 ? kategori[kategori.length - 1].id + 1 : 1;
-    const newData = { id: newId, ...newKategori };
-    kategori.push(newData);
+        category.length > 0 ? category[category.length - 1].id + 1 : 1;
+    const newData = { id: newId, ...newCategory };
+    category.push(newData);
 
-    fs.writeFileSync(filePath, JSON.stringify(kategori, null, 2));
+    fs.writeFileSync(filePath, JSON.stringify(category, null, 2));
     return Response.json(newData, { status: 201 });
 }

@@ -1,18 +1,18 @@
 import fs from 'fs';
 import path from 'path';
 
-const filePath = path.join(process.cwd(), 'public', 'data', 'bahan.json');
+const filePath = path.join(process.cwd(), 'public', 'data', 'items.json');
 
 // 🔹 GET semua bahan
 export async function GET() {
     try {
         const data = fs.readFileSync(filePath, 'utf-8');
-        const bahan = JSON.parse(data);
-        return Response.json(bahan);
+        const item = JSON.parse(data);
+        return Response.json(item);
     } catch (error) {
-        console.error('Gagal membaca data bahan:', error);
+        console.error('Gagal membaca data item:', error);
         return Response.json(
-            { error: 'Gagal membaca data bahan' },
+            { error: 'Gagal membaca data item' },
             { status: 500 }
         );
     }
@@ -21,11 +21,11 @@ export async function GET() {
 // 🔹 POST tambah bahan baru
 export async function POST(request) {
     try {
-        const newBahan = await request.json();
-        const { name, kategori_id, stok, satuan } = newBahan;
+        const newItem = await request.json();
+        const { name, category_id, stock, unit } = newItem;
 
         // Validasi input
-        if (!name || isNaN(kategori_id) || isNaN(stok) || !satuan) {
+        if (!name || isNaN(category_id) || isNaN(stock) || !unit) {
             return Response.json(
                 { error: 'Semua field wajib diisi' },
                 { status: 400 }
@@ -33,28 +33,28 @@ export async function POST(request) {
         }
 
         const file = fs.readFileSync(filePath, 'utf-8');
-        const bahanList = JSON.parse(file);
+        const itemsList = JSON.parse(file);
 
         // Cek nama duplikat
-        if (bahanList.find((item) => item.name === name)) {
+        if (itemsList.find((item) => item.name === name)) {
             return Response.json(
-                { error: 'Bahan dengan nama ini sudah ada' },
+                { error: 'Item dengan nama ini sudah ada' },
                 { status: 400 }
             );
         }
 
-        const newItem = {
+        const addItem = {
             id: Date.now(),
             name,
-            kategori_id: Number(kategori_id),
-            stok: Number(stok),
-            satuan,
+            category_id: Number(category_id),
+            stock: Number(stock),
+            unit,
         };
 
-        bahanList.push(newItem);
-        fs.writeFileSync(filePath, JSON.stringify(bahanList, null, 2));
+        bahanList.push(addItem);
+        fs.writeFileSync(filePath, JSON.stringify(itemsList, null, 2));
 
-        return Response.json(newItem, { status: 201 });
+        return Response.json(addItem, { status: 201 });
     } catch (error) {
         console.error('Error menambah bahan:', error);
         return Response.json(

@@ -1,11 +1,11 @@
 'use client';
 
 import { useActionState } from 'react';
-import { updateKategori } from '../action/kategoriaction';
+import { updateCategory } from '../action/categoryAction';
 import { useEffect } from 'react';
 
-export default function EditKategoriForm({ kategori, onCancel }) {
-    const [state, formAction, pending] = useActionState(updateKategori, {
+export default function EditCategoryForm({ category, onCancel }) {
+    const [state, formAction, pending] = useActionState(updateCategory, {
         success: null,
         message: '',
     });
@@ -25,12 +25,12 @@ export default function EditKategoriForm({ kategori, onCancel }) {
             className="mt-3 flex flex-col sm:flex-row items-center gap-2 bg-[#F1EFEC] p-3 rounded-lg shadow-md"
         >
             {/* Hidden ID */}
-            <input type="hidden" name="id" value={kategori.id} />
+            <input type="hidden" name="id" value={category.id} />
             {/* Nama kategori */}
             <input
                 type="text"
                 name="name"
-                defaultValue={kategori.name}
+                defaultValue={category.name}
                 placeholder="Masukkan nama kategori"
                 className="flex-1 p-2 rounded-md border border-[#D4C9BE] focus:outline-none focus:ring-2 focus:ring-[#123458] text-[#030303] bg-white"
             />

@@ -6,14 +6,14 @@ const filePath = path.join(process.cwd(), 'public', 'data', 'categories.json');
 export async function GET(request, { params }) {
     const { id } = params;
     const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-    const kategori = data.find((k) => k.id === parseInt(id));
+    const category = data.find((k) => k.id === parseInt(id));
 
-    if (!kategori)
+    if (!category)
         return Response.json(
             { error: 'Kategori tidak ditemukan' },
             { status: 404 }
         );
-    return Response.json(kategori);
+    return Response.json(category);
 }
 
 export async function PUT(request, { params }) {

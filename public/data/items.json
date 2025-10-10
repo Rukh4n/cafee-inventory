@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1759811002002,
+    "name": "Susu Full Cream",
+    "category_id": 1759809789192,
+    "stock": 20,
+    "unit": "liter"
+  },
+  {
+    "id": 1759811003003,
+    "name": "Gula Aren",
+    "category_id": 1759809789192,
+    "stock": 3000,
+    "unit": "gram"
+  },
+  {
+    "id": 1759811004004,
+    "name": "Teh Hitam",
+    "category_id": 1759809690043,
+    "stock": 2000,
+    "unit": "gram"
+  },
+  {
+    "id": 1759811005005,
+    "name": "Roti Croissant",
+    "category_id": 1759809758882,
+    "stock": 50,
+    "unit": "pcs"
+  },
+  {
+    "id": 1759820222952,
+    "name": "Teh Pucuk",
+    "category_id": 1759809719430,
+    "stock": 20,
+    "unit": "Kardus"
+  },
+  {
+    "id": 1759820306716,
+    "name": "Teh Ge",
+    "category_id": 1759809719430,
+    "stock": 20,
+    "unit": "Kardus"
+  },
+  {
+    "id": 1759949196948,
+    "name": "Es Teh Manis",
+    "category_id": 1759809719430,
+    "stock": 200,
+    "unit": "Kardus"
+  },
+  {
+    "id": 1760060537303,
+    "name": "Luak White Coffee",
+    "category_id": 1760058514511,
+    "stock": 300,
+    "unit": "Dus"
+  }
+]

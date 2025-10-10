@@ -1,30 +1,33 @@
 'use client';
 
-import { addBahan } from '@/app/action/bahanaction';
 import { useActionState, useEffect } from 'react';
+import { updateItem } from '@/app/action/itemAction';
 import { redirect } from 'next/navigation';
 
-export default function TambahBahanForm({ kategori }) {
-    const [state, formAction, pending] = useActionState(addBahan, {
+export default function EditItemForm({ item, category }) {
+    // Gunakan bind agar id otomatis dikirim
+    const updateItemWithId = updateItem.bind(null, item.id);
+
+    const [state, formAction, pending] = useActionState(updateItemWithId, {
         success: false,
         message: '',
     });
 
     useEffect(() => {
-        if (state?.success === true) {
+        if (state?.success) {
             setTimeout(() => {
-                redirect('/bahan');
-            }, 1000);
+                redirect('/items');
+            }, 800);
         }
     }, [state?.success]);
 
     return (
         <div className="flex flex-col items-center p-10 min-h-screen bg-gray-50">
             <h1 className="text-3xl font-bold text-[#123458] mb-2">
-                Tambah Bahan
+                Edit Item
             </h1>
             <p className="text-gray-600 mb-8">
-                Menambahkan bahan baru untuk persediaan penjualan
+                Perbarui data item yang sudah ada.
             </p>
 
             <form
@@ -37,34 +40,35 @@ export default function TambahBahanForm({ kategori }) {
                         htmlFor="name"
                         className="font-semibold text-gray-700 mb-1"
                     >
-                        Nama Bahan
+                        Nama Item
                     </label>
                     <input
                         type="text"
                         name="name"
                         id="name"
-                        placeholder="Contoh: Biji Kopi Arabika"
-                        className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 text-black"
+                        defaultValue={item.name}
                         required
+                        className="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400 text-black"
                     />
                 </div>
 
                 {/* Dropdown Kategori */}
                 <div className="flex flex-col">
                     <label
-                        htmlFor="kategori_id"
+                        htmlFor="category_id"
                         className="font-semibold text-gray-700 mb-1"
                     >
                         Kategori
                     </label>
                     <select
-                        name="kategori_id"
-                        id="kategori_id"
-                        className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 text-black"
+                        name="category_id"
+                        id="category_id"
+                        defaultValue={item.category_id}
                         required
+                        className="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400 text-black"
                     >
                         <option value="">-- Pilih Kategori --</option>
-                        {kategori.map((kat) => (
+                        {category.map((kat) => (
                             <option key={kat.id} value={kat.id}>
                                 {kat.name}
                             </option>
@@ -75,40 +79,39 @@ export default function TambahBahanForm({ kategori }) {
                 {/* Stok */}
                 <div className="flex flex-col">
                     <label
-                        htmlFor="stok"
+                        htmlFor="stock"
                         className="font-semibold text-gray-700 mb-1"
                     >
                         Stok
                     </label>
                     <input
                         type="number"
-                        name="stok"
-                        id="stok"
-                        placeholder="Contoh: 5000"
-                        className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 text-black"
+                        name="stock"
+                        id="stock"
+                        defaultValue={item.stock}
                         required
+                        className="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400 text-black"
                     />
                 </div>
 
                 {/* Satuan */}
                 <div className="flex flex-col">
                     <label
-                        htmlFor="satuan"
+                        htmlFor="unit"
                         className="font-semibold text-gray-700 mb-1"
                     >
                         Satuan
                     </label>
                     <input
                         type="text"
-                        name="satuan"
-                        id="satuan"
-                        placeholder="Contoh: gram, liter, pcs"
-                        className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 text-black"
+                        name="unit"
+                        id="unit"
+                        defaultValue={item.unit}
                         required
+                        className="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400 text-black"
                     />
                 </div>
 
-                {/* Tombol Submit */}
                 <button
                     type="submit"
                     disabled={pending}
@@ -118,10 +121,9 @@ export default function TambahBahanForm({ kategori }) {
                             : 'bg-[#123458] hover:bg-[#0e2e45]'
                     }`}
                 >
-                    {pending ? 'Menyimpan...' : 'Simpan Bahan'}
+                    {pending ? 'Menyimpan...' : 'Simpan Perubahan'}
                 </button>
 
-                {/* Pesan Sukses / Error */}
                 {state?.message && (
                     <p
                         className={`mt-3 text-center font-medium ${
