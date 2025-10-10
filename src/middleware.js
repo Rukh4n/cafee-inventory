@@ -22,16 +22,14 @@ export async function middleware(req) {
     }
   }
 
-  // Proteksi untuk halaman /guest
-  if (pathname.startsWith("/guest")) {
+  // Proteksi untuk API /guest/order-list
+  if (pathname.startsWith("/api/guest/order-list")) {
     if (!token) {
-      const loginUrl = new URL("/auth/login", req.url)
-      return NextResponse.redirect(loginUrl)
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
     }
 
     if (token?.user?.role !== "guest") {
-      const unauthorizedUrl = new URL("/unauthorized", req.url)
-      return NextResponse.redirect(unauthorizedUrl)
+      return NextResponse.json({ message: "Forbidden: Only guest can access" }, { status: 403 })
     }
   }
 
@@ -40,5 +38,5 @@ export async function middleware(req) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/guest/:path*"],
+  matcher: ["/admin/:path*", "/guest/:path*", "/api/guest/order-list/:path*"],
 }

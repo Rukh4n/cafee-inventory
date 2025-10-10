@@ -1,6 +1,6 @@
 'use client'
 import React, { useState, useEffect } from 'react'
-import { Search } from 'lucide-react'
+import { Search, Coffee, Pizza, Utensils, Sandwich } from 'lucide-react'
 import MenuList from './componnents/MenuList'
 
 const Page = () => {
@@ -32,11 +32,18 @@ const Page = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#030303] to-[#D4C9BE] text-[#F1EFEC] p-6 relative">
-      <div className="flex justify-center md:justify-end mb-6">
-        <form
-          onSubmit={handleSearch}
-          className="flex w-full max-w-md"
-        >
+      <div className="flex flex-col items-center md:flex-row md:justify-between mb-6">
+        {/* Judul dan Icon */}
+        <div className="flex items-center gap-3 mb-4 md:mb-0">
+          <Utensils className="w-6 h-6 text-[#D4C9BE]" />
+          <h1 className="text-2xl font-bold">Daftar Menu</h1>
+          <Coffee className="w-6 h-6 text-[#D4C9BE]" />
+          <Pizza className="w-6 h-6 text-[#D4C9BE]" />
+          <Sandwich className="w-6 h-6 text-[#D4C9BE]" />
+        </div>
+
+        {/* Form Pencarian */}
+        <form onSubmit={handleSearch} className="flex w-full max-w-md">
           <input
             type="text"
             placeholder="Cari menu..."
@@ -52,6 +59,7 @@ const Page = () => {
           </button>
         </form>
       </div>
+
       <MenuList menu={menuData} />
     </div>
   )

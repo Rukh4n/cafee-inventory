@@ -1,12 +1,14 @@
 import React from 'react'
+import Link from 'next/link'
 
 const MenuList = ({ menu }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
       {menu.map((item) => (
-        <div
+        <Link
           key={item.id}
-          className="border border-[#D4C9BE] rounded-lg p-4 bg-[#030303] text-[#F1EFEC] flex flex-col items-start"
+          href={`/menu/${encodeURIComponent(item.name.toLowerCase().replace(/\s+/g, '-'))}`}
+          className="border border-[#D4C9BE] rounded-lg p-4 bg-[#030303] text-[#F1EFEC] flex flex-col items-start hover:opacity-90 transition"
         >
           <img
             src={item.image}
@@ -17,10 +19,10 @@ const MenuList = ({ menu }) => {
           <p className="mb-1">Kategori: {item.category}</p>
           <p className="mb-1">Stok: {item.stock}</p>
           <p className="font-bold mb-4">Rp {item.price.toLocaleString()}</p>
-          <button className="bg-[#D4C9BE] text-[#030303] px-4 py-2 rounded-lg hover:opacity-90 transition w-full text-left">
+          <span className="bg-[#D4C9BE] text-[#030303] px-4 py-2 rounded-lg w-full text-left">
             Pesan
-          </button>
-        </div>
+          </span>
+        </Link>
       ))}
     </div>
   )
