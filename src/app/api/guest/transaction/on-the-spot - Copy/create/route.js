@@ -1,4 +1,3 @@
-// API Route
 import { NextResponse } from "next/server"
 import midtransClient from "midtrans-client"
 import { promises as fs } from "fs"
@@ -7,9 +6,9 @@ import path from "path"
 export async function POST(req) {
   try {
     const body = await req.json()
-    const { items, totalPrice, paymentMethod, tableNumber, address, phoneNumber, name, transactionType } = body
+    const { items, totalPrice, paymentMethod, tableNumber, address, phoneNumber } = body
 
-    if (!items || !totalPrice || !paymentMethod || !name || !transactionType) {
+    if (!items || !totalPrice || !paymentMethod) {
       return NextResponse.json({ error: "Data transaksi tidak lengkap" }, { status: 400 })
     }
 
@@ -20,86 +19,121 @@ export async function POST(req) {
 
     await fs.mkdir(transactionDir, { recursive: true })
 
+    // Load Data Transaksi
     let transactions = []
-    try { transactions = JSON.parse(await fs.readFile(transactionFile, "utf-8")) } catch { transactions = [] }
+    try {
+      const fileData = await fs.readFile(transactionFile, "utf-8")
+      transactions = JSON.parse(fileData)
+    } catch {
+      transactions = []
+    }
+
+    // Load Data Produk
     let products = []
-    try { products = JSON.parse(await fs.readFile(productFile, "utf-8")) } catch { return NextResponse.json({ error: "Data produk tidak ditemukan" }, { status: 500 }) }
+    try {
+      const productData = await fs.readFile(productFile, "utf-8")
+      products = JSON.parse(productData)
+    } catch {
+      return NextResponse.json({ error: "Data produk tidak ditemukan" }, { status: 500 })
+    }
+
+    // Load Data Order List
     let orderList = []
-    try { orderList = JSON.parse(await fs.readFile(orderListFile, "utf-8")) } catch { orderList = [] }
+    try {
+      const orderData = await fs.readFile(orderListFile, "utf-8")
+      orderList = JSON.parse(orderData)
+    } catch {
+      orderList = []
+    }
 
     const orderId = `ONSPOT-${Date.now()}`
     let transactionData = null
     let paymentUrl = null
-    let transactionToken = null
+    let transactionId = null
 
+    // Kurangi stok produk berdasarkan item yang dibeli
     for (const item of items) {
       const productIndex = products.findIndex(p => p.id === item.productId)
       if (productIndex !== -1) {
         if (products[productIndex].stock < item.quantity) {
-          return NextResponse.json({ error: `Stok "${products[productIndex].name}" tidak mencukupi` }, { status: 400 })
+          return NextResponse.json({
+            error: `Stok produk "${products[productIndex].name}" tidak mencukupi`
+          }, { status: 400 })
         }
         products[productIndex].stock -= item.quantity
         products[productIndex].updatedAt = new Date().toISOString()
       }
     }
+
+    // Simpan data produk yang sudah dikurangi stoknya
     await fs.writeFile(productFile, JSON.stringify(products, null, 2), "utf-8")
 
+    // Hapus data orderList yang dibeli
     const purchasedIds = items.map(item => item.productId)
     orderList = orderList.filter(order => !purchasedIds.includes(order.productId))
     await fs.writeFile(orderListFile, JSON.stringify(orderList, null, 2), "utf-8")
 
+    // Jika pembayaran manual
     if (paymentMethod === "Manual via Kasir") {
       transactionData = {
         transactionId: `MANUAL-${Date.now()}`,
         orderId,
-        name,
         items,
         totalPrice,
         paymentMethod,
         tableNumber: tableNumber || "",
         address: address || "",
         phoneNumber: phoneNumber || "",
-        transactionType,
         status: "pending",
         createdAt: new Date().toISOString(),
         paymentUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/guest/transaction`
       }
-    } else {
+    } 
+    // Jika pembayaran online via Midtrans
+    else {
       const snap = new midtransClient.Snap({
         isProduction: process.env.MIDTRANS_IS_PRODUCTION === "true",
-        serverKey: process.env.MIDTRANS_SERVER_KEY
+        serverKey: process.env.MIDTRANS_SERVER_KEY,
       })
 
       const parameter = {
-        transaction_details: { order_id: orderId, gross_amount: totalPrice },
-        item_details: items.map(item => ({ id: item.productId.toString(), price: item.price, quantity: item.quantity, name: item.name })),
+        transaction_details: {
+          order_id: orderId,
+          gross_amount: totalPrice,
+        },
+        item_details: items.map(item => ({
+          id: item.productId.toString(),
+          price: item.price,
+          quantity: item.quantity,
+          name: item.name,
+        })),
         credit_card: { secure: true },
-        customer_details: { first_name: name, email: "guest@example.com", phone: phoneNumber || "", address: address || "" },
-        callbacks: { finish: `${process.env.NEXT_PUBLIC_BASE_URL}/guest/transaction` }
+        customer_details: { first_name: "Guest", email: "guest@example.com" },
+        callbacks: {
+          finish: `${process.env.NEXT_PUBLIC_BASE_URL}/guest/transaction`
+        }
       }
 
       const transaction = await snap.createTransaction(parameter)
-      transactionToken = transaction.token
+      transactionId = transaction.transaction_id
       paymentUrl = transaction.redirect_url
 
       transactionData = {
-        transactionId: transaction.transaction_id,
+        transactionId,
         orderId,
-        name,
         items,
         totalPrice,
         paymentMethod,
         tableNumber: tableNumber || "",
         address: address || "",
         phoneNumber: phoneNumber || "",
-        transactionType,
         status: "pending",
         createdAt: new Date().toISOString(),
-        paymentUrl,
-        transactionToken
+        paymentUrl
       }
     }
 
+    // Simpan transaksi baru
     transactions.push(transactionData)
     await fs.writeFile(transactionFile, JSON.stringify(transactions, null, 2), "utf-8")
 
@@ -107,7 +141,6 @@ export async function POST(req) {
       success: true,
       paymentUrl: transactionData.paymentUrl,
       transactionId: transactionData.transactionId,
-      transactionToken: transactionData.transactionToken || null
     })
   } catch (error) {
     console.error("Error membuat transaksi:", error)

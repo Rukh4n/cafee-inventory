@@ -33,10 +33,21 @@ export async function middleware(req) {
     }
   }
 
+  // Redirect halaman login/register jika user sudah authenticated
+  if (token && (pathname === "/auth/login" || pathname === "/auth/register")) {
+    return NextResponse.redirect(new URL("/", req.url))
+  }
+
   // Lanjutkan request jika lolos pengecekan
   return NextResponse.next()
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/guest/:path*", "/api/guest/order-list/:path*"],
+  matcher: [
+    "/admin/:path*",
+    "/guest/:path*",
+    "/api/guest/order-list/:path*",
+    "/auth/login",
+    "/auth/register",
+  ],
 }

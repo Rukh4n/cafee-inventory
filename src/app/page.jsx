@@ -1,7 +1,11 @@
 "use client"
 import React from "react"
 import Link from "next/link"
-import { LogIn, UserPlus } from "lucide-react"
+import dynamic from "next/dynamic"
+
+// Dynamic import untuk ikon agar tidak di-SSR
+const LogIn = dynamic(() => import("lucide-react").then(mod => mod.LogIn), { ssr: false })
+const UserPlus = dynamic(() => import("lucide-react").then(mod => mod.UserPlus), { ssr: false })
 
 const Page = () => {
   return (

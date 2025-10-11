@@ -1,4 +1,3 @@
-// API Route
 import { NextResponse } from "next/server"
 import midtransClient from "midtrans-client"
 import { promises as fs } from "fs"
@@ -7,7 +6,7 @@ import path from "path"
 export async function POST(req) {
   try {
     const body = await req.json()
-    const { items, totalPrice, paymentMethod, tableNumber, address, phoneNumber, name, transactionType } = body
+    const { items, totalPrice, paymentMethod, tableNumber, name, address, phoneNumber, transactionType } = body
 
     if (!items || !totalPrice || !paymentMethod || !name || !transactionType) {
       return NextResponse.json({ error: "Data transaksi tidak lengkap" }, { status: 400 })
@@ -27,7 +26,7 @@ export async function POST(req) {
     let orderList = []
     try { orderList = JSON.parse(await fs.readFile(orderListFile, "utf-8")) } catch { orderList = [] }
 
-    const orderId = `ONSPOT-${Date.now()}`
+    const orderId = `DELIVERY-${Date.now()}`
     let transactionData = null
     let paymentUrl = null
     let transactionToken = null
@@ -42,6 +41,7 @@ export async function POST(req) {
         products[productIndex].updatedAt = new Date().toISOString()
       }
     }
+
     await fs.writeFile(productFile, JSON.stringify(products, null, 2), "utf-8")
 
     const purchasedIds = items.map(item => item.productId)
@@ -105,8 +105,16 @@ export async function POST(req) {
 
     return NextResponse.json({
       success: true,
-      paymentUrl: transactionData.paymentUrl,
       transactionId: transactionData.transactionId,
+      name: transactionData.name,
+      items: transactionData.items,
+      totalPrice: transactionData.totalPrice,
+      paymentMethod: transactionData.paymentMethod,
+      tableNumber: transactionData.tableNumber,
+      address: transactionData.address,
+      phoneNumber: transactionData.phoneNumber,
+      transactionType: transactionData.transactionType,
+      paymentUrl: transactionData.paymentUrl,
       transactionToken: transactionData.transactionToken || null
     })
   } catch (error) {

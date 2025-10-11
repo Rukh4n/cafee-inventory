@@ -3,7 +3,12 @@ import React, { useState } from "react"
 import Link from "next/link"
 import { useSession, signOut } from "next-auth/react"
 import { usePathname } from "next/navigation"
-import { Menu, X, ListOrdered } from "lucide-react"
+import dynamic from "next/dynamic"
+import { ListOrdered } from "lucide-react"
+
+// Dynamic import untuk ikon agar mencegah hydration error
+const Menu = dynamic(() => import("lucide-react").then(mod => mod.Menu), { ssr: false })
+const X = dynamic(() => import("lucide-react").then(mod => mod.X), { ssr: false })
 
 const Navbar = () => {
   const { data: session } = useSession()
@@ -20,7 +25,7 @@ const Navbar = () => {
   return (
     <nav className="w-full bg-[#030303] text-[#F1EFEC] px-6 py-4 flex justify-between items-center relative">
       <div className="text-xl font-semibold">
-        <Link href="/">MyApp</Link>
+        <Link href="/">Aplikasi Saya</Link>
       </div>
 
       {/* Desktop Navigation */}
