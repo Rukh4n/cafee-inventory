@@ -4,65 +4,65 @@
     "code": "PRD-222596",
     "name": "Paket Brownis",
     "category": "Food",
-    "stock": 293,
+    "stock": 291,
     "price": 40000,
     "image": "/products/img/1760058638427.jpg",
     "createdAt": "2025-10-07T05:42:19.707Z",
-    "updatedAt": "2025-10-11T14:10:12.663Z"
+    "updatedAt": "2025-10-12T01:04:57.035Z"
   },
   {
     "id": 1760058766236,
     "code": "PRD-640672",
     "name": "Paket Cappuccino",
     "category": "Drink",
-    "stock": 290,
+    "stock": 289,
     "price": 15000,
     "image": "/products/img/1760058766231.jpg",
     "createdAt": "2025-10-10T01:12:46.236Z",
-    "updatedAt": "2025-10-11T13:40:22.148Z"
+    "updatedAt": "2025-10-12T01:05:32.617Z"
   },
   {
     "id": 1760058850153,
     "code": "PRD-515090",
     "name": "Paket Chroissan",
     "category": "Drink",
-    "stock": 198,
+    "stock": 197,
     "price": 30000,
     "image": "/products/img/1760058850146.jpg",
     "createdAt": "2025-10-10T01:14:10.153Z",
-    "updatedAt": "2025-10-11T13:54:19.262Z"
+    "updatedAt": "2025-10-12T03:41:08.886Z"
   },
   {
     "id": 1760058922795,
     "code": "PRD-818936",
     "name": "Esspreso",
     "category": "Drink",
-    "stock": 118,
+    "stock": 116,
     "price": 12000,
     "image": "/products/img/1760058922791.jpg",
     "createdAt": "2025-10-10T01:15:22.795Z",
-    "updatedAt": "2025-10-11T13:55:46.688Z"
+    "updatedAt": "2025-10-12T03:33:38.550Z"
   },
   {
     "id": 1760058980851,
     "code": "PRD-713661",
     "name": "Latte",
     "category": "Drink",
-    "stock": 148,
+    "stock": 147,
     "price": 15000,
     "image": "/products/img/1760058980847.jpg",
     "createdAt": "2025-10-10T01:16:20.851Z",
-    "updatedAt": "2025-10-11T14:22:13.223Z"
+    "updatedAt": "2025-10-12T01:13:13.981Z"
   },
   {
     "id": 1760059050338,
     "code": "PRD-949759",
     "name": "Paket Roti Sandwich",
     "category": "Food",
-    "stock": 99,
+    "stock": 97,
     "price": 25000,
     "image": "/products/img/1760059050333.jpg",
     "createdAt": "2025-10-10T01:17:30.338Z",
-    "updatedAt": "2025-10-11T06:49:59.361Z"
+    "updatedAt": "2025-10-12T01:11:53.438Z"
   }
 ]
