@@ -50,7 +50,7 @@ export async function POST(req) {
 
     if (paymentMethod === "Manual via Kasir") {
       transactionData = {
-        transactionId: `MANUAL-${Date.now()}`,
+        transactionId: orderId,
         orderId,
         name,
         items,
@@ -83,7 +83,7 @@ export async function POST(req) {
       paymentUrl = transaction.redirect_url
 
       transactionData = {
-        transactionId: transaction.transaction_id,
+        transactionId: orderId,
         orderId,
         name,
         items,

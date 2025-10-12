@@ -1,1 +1,13 @@
-[]
+[
+  {
+    "id": 1760274176659,
+    "userId": 1759979169531,
+    "productId": 1760058766236,
+    "name": "Paket Cappuccino",
+    "price": 15000,
+    "category": "Drink",
+    "image": "/products/img/1760058766231.jpg",
+    "quantity": 1,
+    "createdAt": "2025-10-12T13:02:56.659Z"
+  }
+]

@@ -1,8 +1,10 @@
-// Page Component
 "use client"
 import React, { useEffect, useState } from "react"
 import { useSession } from "next-auth/react"
 import { useSearchParams, useRouter } from "next/navigation"
+import OrderDetail from "./componnents/OrderDetail"
+import PaymentMethods from "./componnents/PaymentMethods"
+import PaymentModal from "./componnents/PaymentModal"
 
 const Page = () => {
   const { data: session } = useSession()
@@ -59,8 +61,6 @@ const Page = () => {
         })
       })
       const data = await response.json()
-      console.log("Response pembayaran:", data)
-
       if (method === "Manual via Kasir" && data.paymentUrl) {
         router.push(data.paymentUrl)
       } else if (method === "Metode Pembayaran Online" && data.paymentUrl) {
@@ -76,53 +76,13 @@ const Page = () => {
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-2 gap-6 text-[#F1EFEC]">
-      <div className="p-4 lg:p-6 rounded-md shadow-md bg-[#030303] border border-[#D4C9BE]">
-        <h2 className="text-2xl font-bold mb-4">Detail Pesanan</h2>
-        <ul>
-          {parsedData.selectedItems.map((item) => (
-            <li key={item.id} className="mb-4 flex items-center gap-4 p-3 rounded-md bg-[#030303] border border-[#D4C9BE]">
-              <img src={item.image} alt={item.name} className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded" />
-              <div className="flex-1">
-                <p className="text-lg sm:text-xl font-semibold">{item.name}</p>
-                <p className="text-md sm:text-lg">{item.quantity} x {item.price}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
-        <div className="mt-4 text-right">
-          <p className="text-xl sm:text-2xl font-bold">Total Item: {parsedData.selectedItems.length}</p>
-          <p className="text-xl sm:text-2xl font-bold">Total Harga: {parsedData.totalPrice}</p>
-        </div>
-      </div>
-
-      <div className="p-4 lg:p-6 rounded-md shadow-md flex flex-col gap-4 items-center justify-center bg-[#030303] border border-[#D4C9BE]">
-        <h2 className="text-2xl font-bold mb-4">Pilih Metode Pembayaran</h2>
-        <button
-          onClick={() => handlePayment("Manual via Kasir")}
-          disabled={loading}
-          className="w-full py-3 bg-[#030303] text-[#D4C9BE] border border-[#D4C9BE] rounded-md font-semibold hover:bg-[#D4C9BE] hover:text-[#030303] transition"
-        >
-          {loading ? "Memproses..." : "Bayar Via Kasir"}
-        </button>
-        <button
-          onClick={() => handlePayment("Metode Pembayaran Online")}
-          disabled={loading}
-          className="w-full py-3 bg-[#030303] text-[#D4C9BE] border border-[#D4C9BE] rounded-md font-semibold hover:bg-[#D4C9BE] hover:text-[#030303] transition"
-        >
-          {loading ? "Memproses..." : "Metode Pembayaran Online"}
-        </button>
-      </div>
-
+      <OrderDetail parsedData={parsedData} />
+      <PaymentMethods handlePayment={handlePayment} loading={loading} />
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="p-4 rounded-lg shadow-lg max-h-[80vh] text-[#F1EFEC] inline-block w-auto bg-[#030303] border border-[#D4C9BE]">
-            <div className="flex justify-between items-center mb-2">
-              <h3 className="text-xl font-bold">Pembayaran</h3>
-              <button onClick={() => setShowModal(false)} className="text-[#D4C9BE] text-xl font-bold">×</button>
-            </div>
-            <iframe src={paymentUrl} className="w-full h-[70vh] border-none rounded" title="Payment"></iframe>
-          </div>
-        </div>
+        <PaymentModal
+          paymentUrl={paymentUrl}
+          setShowModal={setShowModal}
+        />
       )}
     </div>
   )
