@@ -1,4 +1,3 @@
-// src/app/products/categories/page.jsx
 "use client"
 import React, { useState, useEffect } from "react"
 import Create from "./create"

@@ -1,5 +1,5 @@
-import { getItem } from '../action/itemAction';
-import { getCategory } from '../action/categoryAction';
+import { getItem } from '@/app/action/itemAction';
+import { getCategory } from '@/app/action/categoryAction';
 import ItemList from './itemList';
 
 export default async function ItemsPage() {
@@ -7,7 +7,7 @@ export default async function ItemsPage() {
     const category = await getCategory();
 
     return (
-        <div className="p-6">
+        <div className='bg-[#030303]'>
             <ItemList item={item} category={category} />
         </div>
     );
