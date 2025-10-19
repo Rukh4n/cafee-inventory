@@ -9,7 +9,6 @@ const filePath = path.join(process.cwd(), 'public', 'data', 'categories.json');
 // GET semua data
 export async function getCategory() {
     const data = fs.readFileSync(filePath, 'utf-8');
-    console.log(data);
     return JSON.parse(data);
 }
 
