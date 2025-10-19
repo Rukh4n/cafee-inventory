@@ -1,3 +1,4 @@
+// auth/register/page.jsx
 "use client"
 import React, { useState } from "react"
 import { User, Mail, Lock } from "lucide-react"
@@ -11,6 +12,7 @@ const Page = () => {
     password: "",
     confirmPassword: "",
   })
+  const [error, setError] = useState("")
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -18,6 +20,7 @@ const Page = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setError("")
     try {
       const res = await fetch("/api/auth/register", {
         method: "POST",
@@ -25,20 +28,14 @@ const Page = () => {
         body: JSON.stringify(formData),
       })
 
-      if (res.redirected) {
-        router.push(res.url)
-        return
-      }
-
-      // Jika API tidak redirect otomatis, arahkan manual ke guest/dashboard
       if (res.ok) {
-        router.push("/guest/dashboard")
+        router.push("/auth/login")
       } else {
         const data = await res.json()
-        console.error("Register failed:", data)
+        setError(data.error || "Register failed.")
       }
     } catch (error) {
-      console.error("Error:", error)
+      setError("Server error.")
     }
   }
 
@@ -48,6 +45,9 @@ const Page = () => {
         <h1 className="text-2xl font-bold mb-6 text-center text-[#F1EFEC]">
           Register
         </h1>
+        {error && (
+          <p className="text-red-400 text-center text-sm mb-3">{error}</p>
+        )}
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="flex items-center gap-2 border border-[#D4C9BE] bg-[#030303] rounded-lg px-3 py-2">
             <User className="w-5 h-5 text-[#D4C9BE]" />

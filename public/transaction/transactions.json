@@ -247,10 +247,10 @@
     "address": "",
     "phoneNumber": "",
     "transactionType": "on-the-spot",
-    "status": "pending",
+    "status": "sending",
     "createdAt": "2025-10-18T06:40:11.564Z",
     "paymentUrl": "https://app.sandbox.midtrans.com/snap/v4/redirection/28e112b7-152e-470a-9ee5-c53885f4cdf2",
     "transactionToken": "28e112b7-152e-470a-9ee5-c53885f4cdf2",
-    "updatedAt": "2025-10-18T06:40:29.866Z"
+    "updatedAt": "2025-10-19T02:05:05.159Z"
   }
 ]
