@@ -18,8 +18,7 @@ const Page = () => {
     address: ""
   })
   const [loading, setLoading] = useState(false)
-  const [showModal, setShowModal] = useState(false)
-  const [paymentUrl, setPaymentUrl] = useState("")
+  const [paymentUrl, setPaymentUrl] = useState(null)
 
   useEffect(() => {
     if (session?.user?.name) {
@@ -60,12 +59,16 @@ const Page = () => {
           transactionType: "wrap"
         })
       })
+
       const data = await response.json()
-      if (method === "Manual via Kasir" && data.paymentUrl) {
-        router.push(data.paymentUrl)
-      } else if (method === "Metode Pembayaran Online" && data.paymentUrl) {
-        setPaymentUrl(data.paymentUrl)
-        setShowModal(true)
+      if (data.success) {
+        if (method === "Manual via Kasir") {
+          router.push("/guest/transaction")
+        } else if (method === "Metode Pembayaran Online" && data.paymentUrl) {
+          setPaymentUrl(data.paymentUrl)
+        }
+      } else {
+        alert("Transaksi gagal. Silakan cek kembali.")
       }
     } catch (error) {
       console.error("Error payment:", error)
@@ -74,16 +77,13 @@ const Page = () => {
     }
   }
 
+  const closeModal = () => setPaymentUrl(null)
+
   return (
-    <div className="p-4 sm:p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-2 gap-6 text-[#F1EFEC]">
-      <OrderDetail parsedData={parsedData} />
+    <div className="p-4 sm:p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-2 gap-6 text-[#F1EFEC] min-h-screen">
+      <OrderDetail parsedData={parsedData} formData={formData} handleChange={handleChange} />
       <PaymentMethods handlePayment={handlePayment} loading={loading} />
-      {showModal && (
-        <PaymentModal
-          paymentUrl={paymentUrl}
-          setShowModal={setShowModal}
-        />
-      )}
+      <PaymentModal snapUrl={paymentUrl} onClose={closeModal} />
     </div>
   )
 }

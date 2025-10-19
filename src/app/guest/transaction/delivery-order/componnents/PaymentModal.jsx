@@ -1,6 +1,18 @@
-import React from "react"
+// app/guest/delivery/componnents/PaymentModal.jsx
+import React, { useEffect } from "react"
 
 const PaymentModal = ({ paymentUrl, setShowModal }) => {
+  useEffect(() => {
+    const handlePaymentStatus = (event) => {
+      if (event.origin.includes("midtrans")) {
+        // Kirim pesan ke parent jika pembayaran selesai
+        window.parent.postMessage("PAYMENT_SUCCESS", "*")
+      }
+    }
+    window.addEventListener("message", handlePaymentStatus)
+    return () => window.removeEventListener("message", handlePaymentStatus)
+  }, [])
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-[#030303] p-4 rounded-lg shadow-lg max-h-[80vh] text-[#F1EFEC] inline-block w-auto">

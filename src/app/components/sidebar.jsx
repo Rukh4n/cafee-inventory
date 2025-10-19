@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { usePathname, useRouter } from "next/navigation"
 import { signOut } from "next-auth/react"
 import { Users, Folder, LogOut, Box, List, Package } from "lucide-react"
@@ -9,6 +9,29 @@ const Sidebar = () => {
   const pathname = usePathname()
   const [showProductsMenu, setShowProductsMenu] = useState(false)
   const [showInventoryMenu, setShowInventoryMenu] = useState(false)
+  const [mounted, setMounted] = useState(false)
+  const [orderCount, setOrderCount] = useState(0)
+
+  useEffect(() => {
+    setMounted(true)
+
+    const fetchOrderCount = async () => {
+      try {
+        const res = await fetch("/api/transactions/notification")
+        if (!res.ok) throw new Error("Gagal mengambil notifikasi")
+        const data = await res.json()
+        setOrderCount(data.settlementCount || 0)
+      } catch (err) {
+        console.error("Error notifikasi transaksi:", err)
+      }
+    }
+
+    fetchOrderCount() // ambil pertama kali
+
+    const interval = setInterval(fetchOrderCount, 3000) // update tiap 3 detik
+
+    return () => clearInterval(interval)
+  }, [])
 
   const menuItems = [
     { name: "Dashboard", icon: <Folder className="w-5 h-5" />, path: "/admin/dashboard" },
@@ -18,7 +41,7 @@ const Sidebar = () => {
       icon: <Box className="w-5 h-5" />,
       submenu: [
         { name: "Product Category", path: "/admin/products/categories", icon: <List className="w-4 h-4" /> },
-        { name: "Product List", path: "/admin/products/", icon: <List className="w-4 h-4" /> },
+        { name: "Product List", path: "/admin/products/products-list", icon: <List className="w-4 h-4" /> },
       ],
     },
     {
@@ -36,7 +59,9 @@ const Sidebar = () => {
     signOut({ callbackUrl: "/auth/login" })
   }
 
-  const isRouteActive = (path) => pathname.startsWith(path)
+  const isRouteActive = (path) => pathname?.startsWith(path)
+
+  if (!mounted) return null
 
   return (
     <aside className="w-64 h-screen bg-[#123458] text-[#F1EFEC] flex flex-col p-4 justify-between">
@@ -92,6 +117,28 @@ const Sidebar = () => {
                     </div>
                   )}
                 </div>
+              )
+            }
+
+            if (item.name === "Transactions") {
+              return (
+                <button
+                  key={index}
+                  onClick={() => item.path && router.push(item.path)}
+                  className={`flex items-center justify-between gap-3 px-4 py-2 rounded-lg transition ${
+                    isActive
+                      ? "bg-[#D4C9BE] text-[#030303]"
+                      : "hover:bg-[#D4C9BE] hover:text-[#030303]"
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    {item.icon}
+                    <span>{item.name}</span>
+                  </div>
+                  <span className="text-xs bg-[#030303] text-[#D4C9BE] px-2 py-0.5 rounded-full">
+                    Pesanan ({orderCount})
+                  </span>
+                </button>
               )
             }
 

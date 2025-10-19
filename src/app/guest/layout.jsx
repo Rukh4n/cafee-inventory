@@ -7,9 +7,9 @@ const GuestLayout = ({ children }) => {
   return (
     <SessionWrapper>
       <Suspense fallback={<div>Loading...</div>}>
-        <div style={{ minHeight: "100vh", background: "linear-gradient(to bottom right, #030303, #4a3e36, #D4C9BE)" }}>
-          <main>{children}</main>
-          <footer>© {new Date().getFullYear()} - All rights reserved</footer>
+        <div className="min-h-screen bg-gradient-to-br from-[#030303] via-[#4a3e36] to-[#D4C9BE] text-white flex flex-col">
+          <main className="flex-1">{children}</main>
+          <footer className="text-center py-4">© {new Date().getFullYear()} - All rights reserved</footer>
         </div>
       </Suspense>
     </SessionWrapper>

@@ -6,7 +6,7 @@ export async function GET(req) {
     const { searchParams } = new URL(req.url)
     const query = searchParams.get('query')?.toLowerCase() || ''
 
-    const filePath = path.join(process.cwd(), 'public', 'transactions', 'transactions.json')
+    const filePath = path.join(process.cwd(), 'public', 'transaction', 'transactions.json')
     let data = []
 
     try {
@@ -14,12 +14,16 @@ export async function GET(req) {
       data = JSON.parse(fileContent)
 
       if (query) {
-        data = data.filter(tx => 
-          tx.id.toString().includes(query) ||
-          tx.products.some(p => p.name.toLowerCase().includes(query))
+        data = data.filter(tx =>
+          tx.transactionId.toLowerCase().includes(query) ||
+          tx.items.some(item => item.name.toLowerCase().includes(query))
         )
       }
+
+      // Urutkan data dari terbaru ke terlama berdasarkan createdAt
+      data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
     } catch (err) {
+      console.error('Error parsing transactions:', err)
       data = []
     }
 

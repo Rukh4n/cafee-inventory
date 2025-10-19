@@ -5,21 +5,32 @@ import { BadgeDollarSign, Package, ClipboardList, CalendarDays, X } from "lucide
 
 const Page = () => {
   const searchParams = useSearchParams()
-  const orderId = searchParams.get("order_id")
-  const statusCode = searchParams.get("status_code")
-  const transactionStatus = searchParams.get("transaction_status")
+  const [orderId, setOrderId] = useState("")
+  const [statusCode, setStatusCode] = useState("")
+  const [transactionStatus, setTransactionStatus] = useState("")
   const [message, setMessage] = useState("Memproses hasil transaksi...")
   const [transactions, setTransactions] = useState([])
   const [showModal, setShowModal] = useState(false)
   const [paymentUrl, setPaymentUrl] = useState("")
   const [query, setQuery] = useState("")
 
+  // Gunakan useEffect agar pembacaan URL hanya terjadi di client
+  useEffect(() => {
+    const id = searchParams.get("order_id")
+    const code = searchParams.get("status_code")
+    const status = searchParams.get("transaction_status")
+
+    if (id) setOrderId(id)
+    if (code) setStatusCode(code)
+    if (status) setTransactionStatus(status)
+  }, [searchParams])
+
   const fetchTransactions = async (search = "") => {
     try {
       const endpoint = search
         ? `/api/guest/transaction?query=${encodeURIComponent(search)}`
         : "/api/guest/transaction/"
-      const res = await fetch(endpoint)
+      const res = await fetch(endpoint, { cache: "no-store" })
       const data = await res.json()
       setTransactions(data || [])
     } catch (error) {
@@ -67,6 +78,7 @@ const Page = () => {
 
       <form onSubmit={handleSearch} className="w-full max-w-md mb-8">
         <input
+          key="search-input"
           type="text"
           placeholder="Cari transaksi berdasarkan ID atau nama..."
           value={query}
@@ -85,9 +97,9 @@ const Page = () => {
         <h2 className="text-xl font-semibold mb-4 text-center">Daftar Transaksi</h2>
         {transactions.length > 0 ? (
           <ul className="space-y-3">
-            {transactions.map((tx, index) => (
+            {transactions.map((tx) => (
               <li
-                key={index}
+                key={tx.orderId}
                 className="border border-[#D4C9BE] rounded-md p-4 bg-[#030303] hover:bg-[#1a1a1a] transition"
               >
                 <div className="flex items-center gap-2 mb-1">
@@ -129,7 +141,9 @@ const Page = () => {
             ))}
           </ul>
         ) : (
-          <p className="text-center text-sm text-[#D4C9BE]/70">Tidak ada transaksi ditemukan.</p>
+          <p className="text-center text-sm text-[#D4C9BE]/70">
+            Tidak ada transaksi ditemukan.
+          </p>
         )}
       </div>
 

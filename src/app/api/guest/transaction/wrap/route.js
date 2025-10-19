@@ -79,6 +79,18 @@ export async function POST(req) {
 
     // Jika pembayaran manual
     if (paymentMethod === "Manual via Kasir") {
+      const existingTransaction = transactions.find(
+        t => t.name === name && t.totalPrice === totalPrice && t.paymentMethod === "Manual via Kasir"
+      )
+      if (existingTransaction) {
+        return NextResponse.json({
+          success: true,
+          message: "Transaksi manual sudah tercatat sebelumnya",
+          transactionId: existingTransaction.transactionId,
+          paymentUrl: existingTransaction.paymentUrl
+        })
+      }
+
       transactionData = {
         transactionId: orderId,
         orderId,
@@ -141,8 +153,11 @@ export async function POST(req) {
       }
     }
 
-    transactions.push(transactionData)
-    await fs.writeFile(transactionFile, JSON.stringify(transactions, null, 2), "utf-8")
+    // Cegah duplikasi penyimpanan transaksi
+    if (!transactions.some(t => t.orderId === orderId)) {
+      transactions.push(transactionData)
+      await fs.writeFile(transactionFile, JSON.stringify(transactions, null, 2), "utf-8")
+    }
 
     return NextResponse.json({
       success: true,
