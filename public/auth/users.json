@@ -14,5 +14,21 @@
     "password": "asdfasdf",
     "role": "guest",
     "createdAt": "2025-10-09T03:06:09.531Z"
+  },
+  {
+    "id": 1760769517697,
+    "name": "JokowiYNTKTS",
+    "email": "jokowi@mail.com",
+    "password": "wiwokdetok",
+    "role": "guest",
+    "createdAt": "2025-10-18T06:38:37.698Z"
+  },
+  {
+    "id": 1760769545332,
+    "name": "JokowiYNTKTS",
+    "email": "jokowi@gmail.com",
+    "password": "wiwokdetok",
+    "role": "guest",
+    "createdAt": "2025-10-18T06:39:05.332Z"
   }
 ]

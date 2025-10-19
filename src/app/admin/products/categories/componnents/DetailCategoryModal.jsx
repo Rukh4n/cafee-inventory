@@ -2,7 +2,7 @@
 import React from "react"
 import Detail from "../detail"
 
-const DetailCategoryModal = ({ onClose, category }) => {
+export default function DetailCategoryModal ({ onClose, category })  {
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 px-4">
       <div className="bg-[#030303] rounded-2xl shadow-lg p-6 w-full max-w-md border border-[#D4C9BE]">
@@ -31,4 +31,4 @@ const DetailCategoryModal = ({ onClose, category }) => {
   )
 }
 
-export default DetailCategoryModal
+

@@ -1,22 +1,22 @@
 import React from "react"
 
-const PaymentModal = ({ paymentUrl, setShowModal }) => {
+const PaymentModal = ({ snapUrl, onClose }) => {
+  if (!snapUrl) return null
+
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="p-4 rounded-lg shadow-lg max-h-[80vh] text-[#F1EFEC] inline-block w-auto bg-[#030303] border border-[#D4C9BE]">
-        <div className="flex justify-between items-center mb-2">
-          <h3 className="text-xl font-bold">Pembayaran</h3>
-          <button
-            onClick={() => setShowModal(false)}
-            className="text-[#D4C9BE] text-xl font-bold"
-          >
-            ×
-          </button>
-        </div>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-[#030303] rounded-lg p-4 relative inline-block max-w-full border border-[#D4C9BE]">
+        <button
+          onClick={onClose}
+          className="absolute top-2 right-2 text-[#D4C9BE] text-lg font-bold"
+        >
+          &times;
+        </button>
         <iframe
-          src={paymentUrl}
-          className="w-full h-[70vh] border-none rounded"
-          title="Payment"
+          src={snapUrl}
+          className="rounded-md max-w-full w-auto h-[80vh]"
+          frameBorder="0"
+          title="Midtrans Snap Payment"
         ></iframe>
       </div>
     </div>

@@ -1,4 +1,3 @@
-// Page Component
 "use client"
 import React, { useEffect, useState } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
@@ -63,7 +62,7 @@ const Page = () => {
         if (method === "Manual via Kasir") {
           router.push("/guest/transaction")
         } else if (data.paymentUrl) {
-          setSnapUrl(data.paymentUrl)
+          setSnapUrl(data.paymentUrl) // tampilkan modal iframe
         }
       } else {
         alert("Transaksi gagal. Cek console untuk detail.")

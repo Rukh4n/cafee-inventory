@@ -1,7 +1,22 @@
-import React from "react"
+"use client"
+import React, { useState } from "react"
 import { Search } from "lucide-react"
 
-const SearchBar = ({ searchQuery, setSearchQuery, handleSearch, onAdd }) => {
+export default function SearchBar ({ onAdd, setCategories })  {
+  const [searchQuery, setSearchQuery] = useState("")
+
+  const handleSearch = async (e) => {
+    e.preventDefault()
+    try {
+      const res = await fetch(`/api/products/categories?search=${encodeURIComponent(searchQuery)}`)
+      if (!res.ok) throw new Error("Failed to fetch categories")
+      const data = await res.json()
+      setCategories(data)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
     <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
       <form
@@ -22,15 +37,8 @@ const SearchBar = ({ searchQuery, setSearchQuery, handleSearch, onAdd }) => {
           <Search className="w-5 h-5" />
         </button>
       </form>
-
-      <button
-        onClick={onAdd}
-        className="bg-[#D4C9BE] text-[#030303] px-4 py-2 rounded-lg hover:bg-[#F1EFEC] transition w-full sm:w-auto"
-      >
-        Add Category
-      </button>
     </div>
   )
 }
 
-export default SearchBar
+

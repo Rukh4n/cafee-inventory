@@ -1,34 +1,18 @@
 "use client"
 import React from "react"
-import Link from "next/link"
-import dynamic from "next/dynamic"
-
-// Dynamic import untuk ikon agar tidak di-SSR
-const LogIn = dynamic(() => import("lucide-react").then(mod => mod.LogIn), { ssr: false })
-const UserPlus = dynamic(() => import("lucide-react").then(mod => mod.UserPlus), { ssr: false })
+import { Coffee } from "lucide-react"
 
 const Page = () => {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-gray-100 p-6">
-      <h1 className="text-2xl font-bold mb-6">Welcome Page</h1>
-      <div className="flex gap-4">
-        <Link
-          href="/auth/login"
-          className="inline-flex items-center gap-2 bg-blue-700 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition shadow"
-        >
-          <LogIn className="w-5 h-5" />
-          Login
-        </Link>
-
-        <Link
-          href="/auth/register"
-          className="inline-flex items-center gap-2 bg-green-700 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition shadow"
-        >
-          <UserPlus className="w-5 h-5" />
-          Register
-        </Link>
+    <header className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-[#2c1810] via-[#4a3e36] to-[#d4c9be] text-white text-center p-6">
+      <div className="flex items-center gap-3 mb-4">
+        <Coffee className="w-10 h-10 text-[#d4c9be]" />
+        <h1 className="text-4xl font-bold tracking-wide">Welcome to Cozy Café</h1>
       </div>
-    </div>
+      <p className="text-lg max-w-md text-[#f1efec]">
+        Nikmati secangkir kopi terbaik dan suasana hangat di tempat kami ☕
+      </p>
+    </header>
   )
 }
 

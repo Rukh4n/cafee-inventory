@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from "react"
 import { useSession } from "next-auth/react"
-import { useSearchParams } from "next/navigation"
+import { useSearchParams, useRouter } from "next/navigation"
 import OrderDetail from "./componnents/OrderDetail"
 import DeliveryForm from "./componnents/DeliveryForm"
 import PaymentMethods from "../on-the-spot/componnents/PaymentMethods"
@@ -10,6 +10,7 @@ import PaymentModal from "./componnents/PaymentModal"
 const Page = () => {
   const { data: session } = useSession()
   const searchParams = useSearchParams()
+  const router = useRouter()
   const dataParam = searchParams.get("data")
   const [parsedData, setParsedData] = useState({ selectedItems: [], totalPrice: 0 })
   const [formData, setFormData] = useState({
@@ -76,6 +77,17 @@ const Page = () => {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    const handleMessage = (event) => {
+      if (event.data === "PAYMENT_SUCCESS") {
+        setShowModal(false)
+        router.push("/guest/transaction")
+      }
+    }
+    window.addEventListener("message", handleMessage)
+    return () => window.removeEventListener("message", handleMessage)
+  }, [router])
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-2 gap-6 text-[#F1EFEC]">

@@ -22,6 +22,8 @@ const Navbar = () => {
         : "hover:bg-[#D4C9BE] hover:text-[#030303]"
     }`
 
+  const isGuest = session?.user?.role === "guest"
+
   return (
     <nav className="w-full bg-[#030303] text-[#F1EFEC] px-6 py-4 flex justify-between items-center relative">
       <div className="text-xl font-semibold">
@@ -39,6 +41,11 @@ const Navbar = () => {
         {session && (
           <Link href="/guest/order-list" className={linkClasses("/guest/order-list")}>
             <ListOrdered className="w-4 h-4" /> Daftar Pesanan
+          </Link>
+        )}
+        {isGuest && (
+          <Link href="/guest/transaction" className={linkClasses("/guest/transaction")}>
+            Transaksi
           </Link>
         )}
         {!session ? (
@@ -87,6 +94,15 @@ const Navbar = () => {
             onClick={() => setIsOpen(false)}
           >
             <ListOrdered className="w-4 h-4" /> Daftar Pesanan
+          </Link>
+        )}
+        {isGuest && (
+          <Link
+            href="/guest/transaction"
+            className={linkClasses("/guest/transaction")}
+            onClick={() => setIsOpen(false)}
+          >
+            Transaksi
           </Link>
         )}
         {!session ? (

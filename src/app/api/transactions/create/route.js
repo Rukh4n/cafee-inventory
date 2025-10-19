@@ -1,14 +1,15 @@
 import { promises as fs } from 'fs'
 import path from 'path'
+import { NextResponse } from 'next/server'
 
 export async function POST(req) {
   try {
     const transaction = await req.json()
-    const dirPath = path.join(process.cwd(), 'public', 'transactions')
+    const dirPath = path.join(process.cwd(), 'public', 'transaction')
     const filePath = path.join(dirPath, 'transactions.json')
     const productsFilePath = path.join(process.cwd(), 'public', 'products', 'products.json')
 
-    // Pastikan directory transactions ada
+    // Pastikan directory transaction ada
     try {
       await fs.mkdir(dirPath, { recursive: true })
     } catch (err) {
@@ -20,7 +21,7 @@ export async function POST(req) {
     try {
       const fileContent = await fs.readFile(filePath, 'utf-8')
       existingData = JSON.parse(fileContent)
-    } catch (err) {
+    } catch {
       existingData = []
     }
 
@@ -48,13 +49,41 @@ export async function POST(req) {
     // Simpan kembali file products
     await fs.writeFile(productsFilePath, JSON.stringify(productsData, null, 2), 'utf-8')
 
+    // Buat struktur transaksi sesuai ketentuan
+    const newTransaction = {
+      transactionId: `TX-${Date.now()}`,
+      orderId: transaction.transactionType === 'wrap' ? `ORDER-${Date.now()}` : '',
+      name: transaction.name || '',
+      items: transaction.products.map((p) => ({
+        id: Date.now() + Math.floor(Math.random() * 1000),
+        userId: transaction.userId || '',
+        productId: p.id,
+        name: p.name,
+        price: p.price,
+        category: p.category || '',
+        image: p.image || '',
+        quantity: p.quantity,
+        createdAt: new Date().toISOString(),
+      })),
+      totalPrice: transaction.totalPrice || '',
+      paymentMethod: transaction.paymentMethod || '',
+      tableNumber: transaction.tableNumber || '',
+      address: transaction.address || '',
+      phoneNumber: transaction.phoneNumber || '',
+      transactionType: transaction.transactionType || '',
+      status: 'settlement', // status otomatis settlement
+      createdAt: new Date().toISOString(),
+      paymentUrl: transaction.paymentUrl || '',
+    }
+
     // Tambahkan transaction baru
-    existingData.push({ id: Date.now(), ...transaction, createdAt: new Date().toISOString() })
+    existingData.push(newTransaction)
 
     // Simpan kembali file transactions
     await fs.writeFile(filePath, JSON.stringify(existingData, null, 2), 'utf-8')
 
-    return new Response(JSON.stringify({ message: 'Transaction saved successfully' }), { status: 200 })
+    // Redirect ke halaman admin/transactions
+    return NextResponse.redirect(new URL('/admin/transactions', req.url))
   } catch (error) {
     console.error('Error saving transaction:', error)
     return new Response(JSON.stringify({ error: 'Failed to save transaction' }), { status: 500 })
