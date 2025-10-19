@@ -1,0 +1,256 @@
+[
+  {
+    "transactionId": "TRANSACTION-1760665151631",
+    "orderId": "ONSPOT-1760665151631",
+    "name": "Rukhan",
+    "items": [
+      {
+        "id": 1760664642438,
+        "userId": 1759979169531,
+        "productId": 1760058980851,
+        "name": "Latte",
+        "price": 15000,
+        "category": "Drink",
+        "image": "/products/img/1760058980847.jpg",
+        "quantity": 1,
+        "createdAt": "2025-10-17T01:30:42.438Z"
+      }
+    ],
+    "totalPrice": 15000,
+    "paymentMethod": "Metode Pembayaran Online",
+    "tableNumber": 3,
+    "address": "",
+    "phoneNumber": "",
+    "transactionType": "on-the-spot",
+    "status": "rejected",
+    "createdAt": "2025-10-17T01:39:11.910Z",
+    "paymentUrl": "https://app.sandbox.midtrans.com/snap/v4/redirection/3168e0c8-410b-4463-acbd-ca8756cde400",
+    "transactionToken": "3168e0c8-410b-4463-acbd-ca8756cde400",
+    "updatedAt": "2025-10-17T02:31:11.502Z"
+  },
+  {
+    "transactionId": "TRANSACTION-1760748453552",
+    "orderId": "ONSPOT-1760748453552",
+    "name": "Rukhan",
+    "items": [
+      {
+        "id": 1760747748312,
+        "userId": 1759979169531,
+        "productId": 1760058980851,
+        "name": "Latte",
+        "price": 15000,
+        "category": "Drink",
+        "image": "/products/img/1760058980847.jpg",
+        "quantity": 1,
+        "createdAt": "2025-10-18T00:35:48.312Z"
+      }
+    ],
+    "totalPrice": 15000,
+    "paymentMethod": "Metode Pembayaran Online",
+    "tableNumber": 2,
+    "address": "",
+    "phoneNumber": "",
+    "transactionType": "on-the-spot",
+    "status": "settlement",
+    "createdAt": "2025-10-18T00:47:33.846Z",
+    "paymentUrl": "https://app.sandbox.midtrans.com/snap/v4/redirection/6424b09b-3cd7-486b-ae50-390a9e8dd191",
+    "transactionToken": "6424b09b-3cd7-486b-ae50-390a9e8dd191",
+    "updatedAt": "2025-10-18T00:48:03.020Z"
+  },
+  {
+    "transactionId": "WRAP-1760748825640",
+    "orderId": "WRAP-1760748825640",
+    "name": "Rukhan",
+    "items": [
+      {
+        "id": 1760748790087,
+        "userId": 1759979169531,
+        "productId": 1759815739707,
+        "name": "Paket Brownis",
+        "price": 40000,
+        "category": "Food",
+        "image": "/products/img/1760058638427.jpg",
+        "quantity": 1,
+        "createdAt": "2025-10-18T00:53:10.087Z"
+      }
+    ],
+    "totalPrice": 40000,
+    "paymentMethod": "Metode Pembayaran Online",
+    "tableNumber": "",
+    "address": "",
+    "phoneNumber": "",
+    "transactionType": "wrap",
+    "status": "pending",
+    "createdAt": "2025-10-18T00:53:45.865Z",
+    "paymentUrl": "https://app.sandbox.midtrans.com/snap/v4/redirection/db3c1417-97fa-4e47-846f-cfec50df4fad",
+    "transactionToken": "db3c1417-97fa-4e47-846f-cfec50df4fad"
+  },
+  {
+    "transactionId": "WRAP-1760748841554",
+    "orderId": "WRAP-1760748841554",
+    "name": "Rukhan",
+    "items": [
+      {
+        "id": 1760748790087,
+        "userId": 1759979169531,
+        "productId": 1759815739707,
+        "name": "Paket Brownis",
+        "price": 40000,
+        "category": "Food",
+        "image": "/products/img/1760058638427.jpg",
+        "quantity": 1,
+        "createdAt": "2025-10-18T00:53:10.087Z"
+      }
+    ],
+    "totalPrice": 40000,
+    "paymentMethod": "Manual via Kasir",
+    "tableNumber": "",
+    "address": "",
+    "phoneNumber": "",
+    "transactionType": "wrap",
+    "status": "pending",
+    "createdAt": "2025-10-18T00:54:01.558Z",
+    "paymentUrl": "https://cd4f4f85fbde.ngrok-free.app/guest/transaction"
+  },
+  {
+    "transactionId": "WRAP-1760749498948",
+    "orderId": "WRAP-1760749498948",
+    "name": "Rukhan",
+    "items": [
+      {
+        "id": 1760748799596,
+        "userId": 1759979169531,
+        "productId": 1760059050338,
+        "name": "Paket Roti Sandwich",
+        "price": 25000,
+        "category": "Food",
+        "image": "/products/img/1760059050333.jpg",
+        "quantity": 1,
+        "createdAt": "2025-10-18T00:53:19.596Z"
+      }
+    ],
+    "totalPrice": 25000,
+    "paymentMethod": "Manual via Kasir",
+    "tableNumber": "",
+    "address": "",
+    "phoneNumber": "",
+    "transactionType": "wrap",
+    "status": "pending",
+    "createdAt": "2025-10-18T01:04:58.955Z",
+    "paymentUrl": "https://cd4f4f85fbde.ngrok-free.app/guest/transaction"
+  },
+  {
+    "transactionId": "WRAP-1760749535206",
+    "orderId": "WRAP-1760749535206",
+    "name": "Rukhan",
+    "items": [
+      {
+        "id": 1760749520886,
+        "userId": 1759979169531,
+        "productId": 1759815739707,
+        "name": "Paket Brownis",
+        "price": 40000,
+        "category": "Food",
+        "image": "/products/img/1760058638427.jpg",
+        "quantity": 1,
+        "createdAt": "2025-10-18T01:05:20.886Z"
+      }
+    ],
+    "totalPrice": 40000,
+    "paymentMethod": "Metode Pembayaran Online",
+    "tableNumber": "",
+    "address": "",
+    "phoneNumber": "",
+    "transactionType": "wrap",
+    "status": "settlement",
+    "createdAt": "2025-10-18T01:05:35.489Z",
+    "paymentUrl": "https://app.sandbox.midtrans.com/snap/v4/redirection/85768728-bd61-4cd6-be61-2dea46e2ec5a",
+    "transactionToken": "85768728-bd61-4cd6-be61-2dea46e2ec5a",
+    "updatedAt": "2025-10-18T01:06:07.672Z"
+  },
+  {
+    "transactionId": "DELIVERY-1760749924644",
+    "orderId": "DELIVERY-1760749924644",
+    "name": "Rukhan",
+    "items": [
+      {
+        "id": 1760749890875,
+        "userId": 1759979169531,
+        "productId": 1760058980851,
+        "name": "Latte",
+        "price": 15000,
+        "category": "Drink",
+        "image": "/products/img/1760058980847.jpg",
+        "quantity": 1,
+        "createdAt": "2025-10-18T01:11:30.875Z"
+      }
+    ],
+    "totalPrice": 15000,
+    "paymentMethod": "Midtrans",
+    "tableNumber": "",
+    "address": "RT : 01, RW:04, Dukuh Depok, Desa Pejagoan, Kecamatan Pejagoan, Kabupaten Kebumen, Provinsi Jawa Tengah",
+    "phoneNumber": "085727165906",
+    "transactionType": "delivery",
+    "status": "settlement",
+    "createdAt": "2025-10-18T01:12:04.868Z",
+    "paymentUrl": "https://app.sandbox.midtrans.com/snap/v4/redirection/c0d4e2e7-cf98-47b0-8a96-ca3dafeae3c4",
+    "transactionToken": "c0d4e2e7-cf98-47b0-8a96-ca3dafeae3c4",
+    "updatedAt": "2025-10-18T01:12:29.727Z"
+  },
+  {
+    "transactionId": "TRANSACTION-1760750747864",
+    "orderId": "ONSPOT-1760750747864",
+    "name": "Rukhan",
+    "items": [
+      {
+        "id": 1760750721456,
+        "userId": 1759979169531,
+        "productId": 1760058980851,
+        "name": "Latte",
+        "price": 15000,
+        "category": "Drink",
+        "image": "/products/img/1760058980847.jpg",
+        "quantity": 1,
+        "createdAt": "2025-10-18T01:25:21.456Z"
+      }
+    ],
+    "totalPrice": 15000,
+    "paymentMethod": "Manual via Kasir",
+    "tableNumber": 1,
+    "address": "",
+    "phoneNumber": "",
+    "transactionType": "on-the-spot",
+    "status": "pending",
+    "createdAt": "2025-10-18T01:25:47.867Z",
+    "paymentUrl": "https://cd4f4f85fbde.ngrok-free.app/guest/transaction"
+  },
+  {
+    "transactionId": "TRANSACTION-1760769611095",
+    "orderId": "ONSPOT-1760769611095",
+    "name": "JokowiYNTKTS",
+    "items": [
+      {
+        "id": 1760769581515,
+        "userId": 1760769517697,
+        "productId": 1759815739707,
+        "name": "Paket Brownis",
+        "price": 40000,
+        "category": "Food",
+        "image": "/products/img/1760058638427.jpg",
+        "quantity": 1,
+        "createdAt": "2025-10-18T06:39:41.515Z"
+      }
+    ],
+    "totalPrice": 40000,
+    "paymentMethod": "Metode Pembayaran Online",
+    "tableNumber": 1,
+    "address": "",
+    "phoneNumber": "",
+    "transactionType": "on-the-spot",
+    "status": "sending",
+    "createdAt": "2025-10-18T06:40:11.564Z",
+    "paymentUrl": "https://app.sandbox.midtrans.com/snap/v4/redirection/28e112b7-152e-470a-9ee5-c53885f4cdf2",
+    "transactionToken": "28e112b7-152e-470a-9ee5-c53885f4cdf2",
+    "updatedAt": "2025-10-19T02:05:05.159Z"
+  }
+]
