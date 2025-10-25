@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react"
 import { usePathname, useRouter } from "next/navigation"
 import { signOut } from "next-auth/react"
-import { Users, Folder, LogOut, Box, List, Package } from "lucide-react"
+import { Users, Folder, LogOut, Box, List, Package, Megaphone } from "lucide-react"
 
 const Sidebar = () => {
   const router = useRouter()
@@ -26,10 +26,8 @@ const Sidebar = () => {
       }
     }
 
-    fetchOrderCount() // ambil pertama kali
-
-    const interval = setInterval(fetchOrderCount, 3000) // update tiap 3 detik
-
+    fetchOrderCount()
+    const interval = setInterval(fetchOrderCount, 3000)
     return () => clearInterval(interval)
   }, [])
 
@@ -53,6 +51,7 @@ const Sidebar = () => {
       ],
     },
     { name: "Transactions", icon: <List className="w-5 h-5" />, path: "/admin/transactions" },
+    { name: "Promotion", icon: <Megaphone className="w-5 h-5" />, path: "/admin/promotion" },
   ]
 
   const handleLogout = () => {

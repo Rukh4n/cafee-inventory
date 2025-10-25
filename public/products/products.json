@@ -15,11 +15,11 @@
     "code": "PRD-640672",
     "name": "Paket Cappuccino",
     "category": "Drink",
-    "stock": 286,
+    "stock": 285,
     "price": 15000,
     "image": "/products/img/1760058766231.jpg",
     "createdAt": "2025-10-10T01:12:46.236Z",
-    "updatedAt": "2025-10-14T03:49:46.416Z"
+    "updatedAt": "2025-10-20T09:29:26.100Z"
   },
   {
     "id": 1760058850153,
@@ -37,11 +37,11 @@
     "code": "PRD-818936",
     "name": "Esspreso",
     "category": "Drink",
-    "stock": 115,
+    "stock": 114,
     "price": 12000,
     "image": "/products/img/1760058922791.jpg",
     "createdAt": "2025-10-10T01:15:22.795Z",
-    "updatedAt": "2025-10-17T01:29:01.109Z"
+    "updatedAt": "2025-10-20T09:29:26.100Z"
   },
   {
     "id": 1760058980851,

@@ -27,7 +27,7 @@ const Navbar = () => {
   return (
     <nav className="w-full bg-[#030303] text-[#F1EFEC] px-6 py-4 flex justify-between items-center relative">
       <div className="text-xl font-semibold">
-        <Link href="/">Aplikasi Saya</Link>
+        <Link href="/">diMeja</Link>
       </div>
 
       {/* Desktop Navigation */}
@@ -77,7 +77,7 @@ const Navbar = () => {
 
       {/* Mobile Sidebar */}
       <div
-        className={`fixed top-0 left-0 w-64 h-full bg-[#030303] text-[#F1EFEC] shadow-lg z-50 flex flex-col p-6 gap-4 transform transition-transform duration-300 ease-in-out ${
+        className={`fixed inset-0 w-64 h-full bg-[#030303]/100 text-[#F1EFEC] shadow-lg z-50 flex flex-col p-6 gap-4 transform transition-transform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >

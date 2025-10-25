@@ -1,0 +1,15 @@
+[
+  {
+    "id": 1761396736049,
+    "title": "Promo 10 10",
+    "description": "keterangan",
+    "discount": null,
+    "startDate": "2025-10-29",
+    "endDate": "2025-11-01",
+    "percentage": "10",
+    "limitQuota": "100",
+    "amount": null,
+    "image": null,
+    "createdAt": "2025-10-25T12:52:16.049Z"
+  }
+]

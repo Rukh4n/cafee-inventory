@@ -252,5 +252,44 @@
     "paymentUrl": "https://app.sandbox.midtrans.com/snap/v4/redirection/28e112b7-152e-470a-9ee5-c53885f4cdf2",
     "transactionToken": "28e112b7-152e-470a-9ee5-c53885f4cdf2",
     "updatedAt": "2025-10-19T02:05:05.159Z"
+  },
+  {
+    "transactionId": "TRANSACTION-1760952566100",
+    "orderId": "ONSPOT-1760952566100",
+    "name": "Rukhan",
+    "items": [
+      {
+        "id": 1760945889291,
+        "userId": 1760944021708,
+        "productId": 1760058766236,
+        "name": "Paket Cappuccino",
+        "price": 15000,
+        "category": "Drink",
+        "image": "/products/img/1760058766231.jpg",
+        "quantity": 1,
+        "createdAt": "2025-10-20T07:38:09.291Z"
+      },
+      {
+        "id": 1760945947480,
+        "userId": 1760944021708,
+        "productId": 1760058922795,
+        "name": "Esspreso",
+        "price": 12000,
+        "category": "Drink",
+        "image": "/products/img/1760058922791.jpg",
+        "quantity": 1,
+        "createdAt": "2025-10-20T07:39:07.480Z"
+      }
+    ],
+    "totalPrice": 27000,
+    "paymentMethod": "Metode Pembayaran Online",
+    "tableNumber": 8,
+    "address": "",
+    "phoneNumber": "",
+    "transactionType": "on-the-spot",
+    "status": "pending",
+    "createdAt": "2025-10-20T09:29:26.525Z",
+    "paymentUrl": "https://app.sandbox.midtrans.com/snap/v4/redirection/384232cc-8c0d-44fa-ba39-fe3b5a41f981",
+    "transactionToken": "384232cc-8c0d-44fa-ba39-fe3b5a41f981"
   }
 ]
