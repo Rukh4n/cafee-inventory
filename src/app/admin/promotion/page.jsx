@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Plus, X, Search } from "lucide-react"
 import CreatePromotion from "./componnents/createPromotion"
@@ -9,9 +9,31 @@ const Page = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [search, setSearch] = useState("")
   const [promotions, setPromotions] = useState([])
+  const [allPromotions, setAllPromotions] = useState([])
+
+  // Fetch all promotions initially
+  useEffect(() => {
+    const fetchPromotions = async () => {
+      try {
+        const res = await fetch("/api/promotion/promotionList")
+        if (!res.ok) throw new Error("Failed to fetch promotions")
+        const data = await res.json()
+        setPromotions(data)
+        setAllPromotions(data)
+      } catch (error) {
+        console.error("Error fetching promotions:", error)
+      }
+    }
+    fetchPromotions()
+  }, [])
 
   const handleSearch = async (e) => {
     e.preventDefault()
+    if (!search.trim()) {
+      setPromotions(allPromotions)
+      return
+    }
+
     try {
       const res = await fetch(`/api/promotion/promotionList?search=${encodeURIComponent(search)}`)
       if (!res.ok) throw new Error("Failed to fetch promotions")

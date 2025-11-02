@@ -6,16 +6,7 @@ import path from "path"
 export async function POST(req) {
   try {
     const body = await req.json()
-    const {
-      items = [],
-      totalPrice = 0,
-      paymentMethod = "",
-      tableNumber = "",
-      address = "",
-      phoneNumber = "",
-      name = "",
-      transactionType = ""
-    } = body
+    const { userId, items, totalPrice, paymentMethod, tableNumber, address, phoneNumber, name, transactionType } = body
 
     if (!items || !totalPrice || !paymentMethod || !name || !transactionType) {
       return NextResponse.json({ error: "Data transaksi tidak lengkap" }, { status: 400 })
@@ -49,22 +40,18 @@ export async function POST(req) {
       orderList = []
     }
 
-    // Semua transaksi akan diawali dengan WRAP
-    const prefix = "WRAP"
-    const orderId = `${prefix}-${Date.now()}`
+    const orderId = `ONSPOT-${Date.now()}`
+    const transactionId = `TRANSACTION-${Date.now()}`
     let transactionData = null
     let paymentUrl = null
     let transactionToken = null
 
-    // Update stok produk
+    // Kurangi stok produk
     for (const item of items) {
       const productIndex = products.findIndex(p => p.id === item.productId)
       if (productIndex !== -1) {
         if (products[productIndex].stock < item.quantity) {
-          return NextResponse.json(
-            { error: `Stok "${products[productIndex].name}" tidak mencukupi` },
-            { status: 400 }
-          )
+          return NextResponse.json({ error: `Stok "${products[productIndex].name}" tidak mencukupi` }, { status: 400 })
         }
         products[productIndex].stock -= item.quantity
         products[productIndex].updatedAt = new Date().toISOString()
@@ -72,61 +59,43 @@ export async function POST(req) {
     }
     await fs.writeFile(productFile, JSON.stringify(products, null, 2), "utf-8")
 
-    // Hapus item yang sudah dibeli dari daftar pesanan
+    // Hapus dari daftar pesanan
     const purchasedIds = items.map(item => item.productId)
     orderList = orderList.filter(order => !purchasedIds.includes(order.productId))
     await fs.writeFile(orderListFile, JSON.stringify(orderList, null, 2), "utf-8")
 
-    // Jika pembayaran manual
     if (paymentMethod === "Manual via Kasir") {
-      const existingTransaction = transactions.find(
-        t => t.name === name && t.totalPrice === totalPrice && t.paymentMethod === "Manual via Kasir"
-      )
-      if (existingTransaction) {
-        return NextResponse.json({
-          success: true,
-          message: "Transaksi manual sudah tercatat sebelumnya",
-          transactionId: existingTransaction.transactionId,
-          paymentUrl: existingTransaction.paymentUrl
-        })
-      }
-
       transactionData = {
-        transactionId: orderId,
+        userId: userId || null,
+        transactionId,
         orderId,
         name,
         items,
         totalPrice,
         paymentMethod,
-        tableNumber,
-        address,
-        phoneNumber,
+        tableNumber: tableNumber || "",
+        address: address || "",
+        phoneNumber: phoneNumber || "",
         transactionType,
         status: "pending",
         createdAt: new Date().toISOString(),
         paymentUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/guest/transaction`
       }
     } else {
-      // Pembayaran melalui Midtrans
       const snap = new midtransClient.Snap({
         isProduction: process.env.MIDTRANS_IS_PRODUCTION === "true",
         serverKey: process.env.MIDTRANS_SERVER_KEY
       })
 
+      // Hanya gunakan totalPrice dari frontend, tanpa menghitung ulang item_details
       const parameter = {
         transaction_details: { order_id: orderId, gross_amount: totalPrice },
-        item_details: items.map(item => ({
-          id: item.productId.toString(),
-          price: item.price,
-          quantity: item.quantity,
-          name: item.name
-        })),
         credit_card: { secure: true },
         customer_details: {
           first_name: name,
           email: "guest@example.com",
-          phone: phoneNumber,
-          address
+          phone: phoneNumber || "",
+          address: address || ""
         },
         callbacks: { finish: `${process.env.NEXT_PUBLIC_BASE_URL}/guest/transaction` }
       }
@@ -136,15 +105,16 @@ export async function POST(req) {
       paymentUrl = transaction.redirect_url
 
       transactionData = {
-        transactionId: orderId,
+        userId: userId || null,
+        transactionId,
         orderId,
         name,
         items,
         totalPrice,
         paymentMethod,
-        tableNumber,
-        address,
-        phoneNumber,
+        tableNumber: tableNumber || "",
+        address: address || "",
+        phoneNumber: phoneNumber || "",
         transactionType,
         status: "pending",
         createdAt: new Date().toISOString(),
@@ -153,11 +123,8 @@ export async function POST(req) {
       }
     }
 
-    // Cegah duplikasi penyimpanan transaksi
-    if (!transactions.some(t => t.orderId === orderId)) {
-      transactions.push(transactionData)
-      await fs.writeFile(transactionFile, JSON.stringify(transactions, null, 2), "utf-8")
-    }
+    transactions.push(transactionData)
+    await fs.writeFile(transactionFile, JSON.stringify(transactions, null, 2), "utf-8")
 
     return NextResponse.json({
       success: true,

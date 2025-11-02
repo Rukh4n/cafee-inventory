@@ -12,17 +12,21 @@ const Page = () => {
   const router = useRouter()
   const dataParam = searchParams.get("data")
   const [parsedData, setParsedData] = useState({ selectedItems: [], totalPrice: 0 })
+  const [finalTotal, setFinalTotal] = useState(0)
   const [formData, setFormData] = useState({
     name: "",
     phoneNumber: "",
-    address: ""
+    address: "",
   })
   const [loading, setLoading] = useState(false)
   const [paymentUrl, setPaymentUrl] = useState(null)
 
   useEffect(() => {
-    if (session?.user?.name) {
-      setFormData((prev) => ({ ...prev, name: session.user.name }))
+    if (session?.user) {
+      setFormData((prev) => ({
+        ...prev,
+        name: session.user.name || "",
+      }))
     }
   }, [session])
 
@@ -32,6 +36,7 @@ const Page = () => {
         const decoded = decodeURIComponent(dataParam)
         const jsonData = JSON.parse(decoded)
         setParsedData(jsonData)
+        setFinalTotal(jsonData.totalPrice)
       } catch (error) {
         console.error("Gagal memparsing data:", error)
       }
@@ -43,6 +48,10 @@ const Page = () => {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
+  const handleTotalChange = (newTotal) => {
+    setFinalTotal(newTotal)
+  }
+
   const handlePayment = async (method) => {
     setLoading(true)
     try {
@@ -50,14 +59,15 @@ const Page = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          userId: session?.user?.id || null,
           items: parsedData.selectedItems || [],
-          totalPrice: parsedData.totalPrice || 0,
+          totalPrice: finalTotal || 0,
           paymentMethod: method || "",
           name: formData.name || "",
           phoneNumber: formData.phoneNumber || "",
           address: formData.address || "",
-          transactionType: "wrap"
-        })
+          transactionType: "wrap",
+        }),
       })
 
       const data = await response.json()
@@ -81,7 +91,12 @@ const Page = () => {
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-2 gap-6 text-[#F1EFEC] min-h-screen">
-      <OrderDetail parsedData={parsedData} formData={formData} handleChange={handleChange} />
+      <OrderDetail
+        parsedData={parsedData}
+        formData={formData}
+        handleChange={handleChange}
+        onTotalChange={handleTotalChange}
+      />
       <PaymentMethods handlePayment={handlePayment} loading={loading} />
       <PaymentModal snapUrl={paymentUrl} onClose={closeModal} />
     </div>

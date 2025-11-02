@@ -7,7 +7,7 @@ import path from "path"
 export async function POST(req) {
   try {
     const body = await req.json()
-    const { items, totalPrice, paymentMethod, tableNumber, address, phoneNumber, name, transactionType } = body
+    const { userId, items, totalPrice, paymentMethod, tableNumber, address, phoneNumber, name, transactionType } = body
 
     if (!items || !totalPrice || !paymentMethod || !name || !transactionType) {
       return NextResponse.json({ error: "Data transaksi tidak lengkap" }, { status: 400 })
@@ -51,6 +51,7 @@ export async function POST(req) {
 
     if (paymentMethod === "Manual via Kasir") {
       transactionData = {
+        userId: userId || null,
         transactionId,
         orderId,
         name,
@@ -71,16 +72,16 @@ export async function POST(req) {
         serverKey: process.env.MIDTRANS_SERVER_KEY
       })
 
+      // hanya gunakan totalPrice dari frontend tanpa menjumlah ulang item_details
       const parameter = {
         transaction_details: { order_id: orderId, gross_amount: totalPrice },
-        item_details: items.map(item => ({
-          id: item.productId.toString(),
-          price: item.price,
-          quantity: item.quantity,
-          name: item.name
-        })),
         credit_card: { secure: true },
-        customer_details: { first_name: name, email: "guest@example.com", phone: phoneNumber || "", address: address || "" },
+        customer_details: {
+          first_name: name,
+          email: "guest@example.com",
+          phone: phoneNumber || "",
+          address: address || ""
+        },
         callbacks: { finish: `${process.env.NEXT_PUBLIC_BASE_URL}/guest/transaction` }
       }
 
@@ -89,6 +90,7 @@ export async function POST(req) {
       paymentUrl = transaction.redirect_url
 
       transactionData = {
+        userId: userId || null,
         transactionId,
         orderId,
         name,

@@ -1,159 +1,48 @@
 [
   {
-    "transactionId": "TRANSACTION-1760665151631",
-    "orderId": "ONSPOT-1760665151631",
-    "name": "Rukhan",
+    "userId": 1761459268945,
+    "transactionId": "TRANSACTION-1761620584102",
+    "orderId": "ONSPOT-1761620584102",
+    "name": "Saputra",
     "items": [
       {
-        "id": 1760664642438,
-        "userId": 1759979169531,
-        "productId": 1760058980851,
-        "name": "Latte",
-        "price": 15000,
+        "id": 1761620573908,
+        "userId": 1761459268945,
+        "productId": 1760058850153,
+        "name": "Paket Chroissan",
+        "price": 30000,
         "category": "Drink",
-        "image": "/products/img/1760058980847.jpg",
+        "image": "/products/img/1760058850146.jpg",
         "quantity": 1,
-        "createdAt": "2025-10-17T01:30:42.438Z"
+        "createdAt": "2025-10-28T03:02:53.908Z"
       }
     ],
-    "totalPrice": 15000,
-    "paymentMethod": "Metode Pembayaran Online",
-    "tableNumber": 3,
-    "address": "",
-    "phoneNumber": "",
-    "transactionType": "on-the-spot",
-    "status": "rejected",
-    "createdAt": "2025-10-17T01:39:11.910Z",
-    "paymentUrl": "https://app.sandbox.midtrans.com/snap/v4/redirection/3168e0c8-410b-4463-acbd-ca8756cde400",
-    "transactionToken": "3168e0c8-410b-4463-acbd-ca8756cde400",
-    "updatedAt": "2025-10-17T02:31:11.502Z"
-  },
-  {
-    "transactionId": "TRANSACTION-1760748453552",
-    "orderId": "ONSPOT-1760748453552",
-    "name": "Rukhan",
-    "items": [
-      {
-        "id": 1760747748312,
-        "userId": 1759979169531,
-        "productId": 1760058980851,
-        "name": "Latte",
-        "price": 15000,
-        "category": "Drink",
-        "image": "/products/img/1760058980847.jpg",
-        "quantity": 1,
-        "createdAt": "2025-10-18T00:35:48.312Z"
-      }
-    ],
-    "totalPrice": 15000,
-    "paymentMethod": "Metode Pembayaran Online",
-    "tableNumber": 2,
-    "address": "",
-    "phoneNumber": "",
-    "transactionType": "on-the-spot",
-    "status": "settlement",
-    "createdAt": "2025-10-18T00:47:33.846Z",
-    "paymentUrl": "https://app.sandbox.midtrans.com/snap/v4/redirection/6424b09b-3cd7-486b-ae50-390a9e8dd191",
-    "transactionToken": "6424b09b-3cd7-486b-ae50-390a9e8dd191",
-    "updatedAt": "2025-10-18T00:48:03.020Z"
-  },
-  {
-    "transactionId": "WRAP-1760748825640",
-    "orderId": "WRAP-1760748825640",
-    "name": "Rukhan",
-    "items": [
-      {
-        "id": 1760748790087,
-        "userId": 1759979169531,
-        "productId": 1759815739707,
-        "name": "Paket Brownis",
-        "price": 40000,
-        "category": "Food",
-        "image": "/products/img/1760058638427.jpg",
-        "quantity": 1,
-        "createdAt": "2025-10-18T00:53:10.087Z"
-      }
-    ],
-    "totalPrice": 40000,
-    "paymentMethod": "Metode Pembayaran Online",
-    "tableNumber": "",
-    "address": "",
-    "phoneNumber": "",
-    "transactionType": "wrap",
-    "status": "pending",
-    "createdAt": "2025-10-18T00:53:45.865Z",
-    "paymentUrl": "https://app.sandbox.midtrans.com/snap/v4/redirection/db3c1417-97fa-4e47-846f-cfec50df4fad",
-    "transactionToken": "db3c1417-97fa-4e47-846f-cfec50df4fad"
-  },
-  {
-    "transactionId": "WRAP-1760748841554",
-    "orderId": "WRAP-1760748841554",
-    "name": "Rukhan",
-    "items": [
-      {
-        "id": 1760748790087,
-        "userId": 1759979169531,
-        "productId": 1759815739707,
-        "name": "Paket Brownis",
-        "price": 40000,
-        "category": "Food",
-        "image": "/products/img/1760058638427.jpg",
-        "quantity": 1,
-        "createdAt": "2025-10-18T00:53:10.087Z"
-      }
-    ],
-    "totalPrice": 40000,
+    "totalPrice": 30000,
     "paymentMethod": "Manual via Kasir",
     "tableNumber": "",
     "address": "",
     "phoneNumber": "",
     "transactionType": "wrap",
     "status": "pending",
-    "createdAt": "2025-10-18T00:54:01.558Z",
-    "paymentUrl": "https://cd4f4f85fbde.ngrok-free.app/guest/transaction"
+    "createdAt": "2025-10-28T03:03:04.107Z",
+    "paymentUrl": "http://localhost:3000/guest/transaction"
   },
   {
-    "transactionId": "WRAP-1760749498948",
-    "orderId": "WRAP-1760749498948",
-    "name": "Rukhan",
+    "userId": 1761459268945,
+    "transactionId": "TRANSACTION-1761620610968",
+    "orderId": "ONSPOT-1761620610968",
+    "name": "Saputra",
     "items": [
       {
-        "id": 1760748799596,
-        "userId": 1759979169531,
-        "productId": 1760059050338,
-        "name": "Paket Roti Sandwich",
-        "price": 25000,
-        "category": "Food",
-        "image": "/products/img/1760059050333.jpg",
-        "quantity": 1,
-        "createdAt": "2025-10-18T00:53:19.596Z"
-      }
-    ],
-    "totalPrice": 25000,
-    "paymentMethod": "Manual via Kasir",
-    "tableNumber": "",
-    "address": "",
-    "phoneNumber": "",
-    "transactionType": "wrap",
-    "status": "pending",
-    "createdAt": "2025-10-18T01:04:58.955Z",
-    "paymentUrl": "https://cd4f4f85fbde.ngrok-free.app/guest/transaction"
-  },
-  {
-    "transactionId": "WRAP-1760749535206",
-    "orderId": "WRAP-1760749535206",
-    "name": "Rukhan",
-    "items": [
-      {
-        "id": 1760749520886,
-        "userId": 1759979169531,
+        "id": 1761620601072,
+        "userId": 1761459268945,
         "productId": 1759815739707,
         "name": "Paket Brownis",
         "price": 40000,
         "category": "Food",
         "image": "/products/img/1760058638427.jpg",
         "quantity": 1,
-        "createdAt": "2025-10-18T01:05:20.886Z"
+        "createdAt": "2025-10-28T03:03:21.072Z"
       }
     ],
     "totalPrice": 40000,
@@ -162,134 +51,152 @@
     "address": "",
     "phoneNumber": "",
     "transactionType": "wrap",
-    "status": "settlement",
-    "createdAt": "2025-10-18T01:05:35.489Z",
-    "paymentUrl": "https://app.sandbox.midtrans.com/snap/v4/redirection/85768728-bd61-4cd6-be61-2dea46e2ec5a",
-    "transactionToken": "85768728-bd61-4cd6-be61-2dea46e2ec5a",
-    "updatedAt": "2025-10-18T01:06:07.672Z"
+    "status": "pending",
+    "createdAt": "2025-10-28T03:03:31.135Z",
+    "paymentUrl": "https://app.sandbox.midtrans.com/snap/v4/redirection/956aa113-f84b-4b5a-90e5-ecf54e1fe27b",
+    "transactionToken": "956aa113-f84b-4b5a-90e5-ecf54e1fe27b"
   },
   {
-    "transactionId": "DELIVERY-1760749924644",
-    "orderId": "DELIVERY-1760749924644",
-    "name": "Rukhan",
+    "userId": 1761459268945,
+    "transactionId": "TRANSACTION-1761620651485",
+    "orderId": "ONSPOT-1761620651485",
+    "name": "Saputra",
     "items": [
       {
-        "id": 1760749890875,
-        "userId": 1759979169531,
-        "productId": 1760058980851,
-        "name": "Latte",
-        "price": 15000,
+        "id": 1761620624130,
+        "userId": 1761459268945,
+        "productId": 1760058850153,
+        "name": "Paket Chroissan",
+        "price": 30000,
         "category": "Drink",
-        "image": "/products/img/1760058980847.jpg",
+        "image": "/products/img/1760058850146.jpg",
         "quantity": 1,
-        "createdAt": "2025-10-18T01:11:30.875Z"
+        "createdAt": "2025-10-28T03:03:44.130Z"
       }
     ],
-    "totalPrice": 15000,
+    "totalPrice": 27000,
+    "paymentMethod": "Manual via Kasir",
+    "tableNumber": "",
+    "address": "",
+    "phoneNumber": "",
+    "transactionType": "wrap",
+    "status": "pending",
+    "createdAt": "2025-10-28T03:04:11.490Z",
+    "paymentUrl": "http://localhost:3000/guest/transaction"
+  },
+  {
+    "userId": 1761459268945,
+    "transactionId": "TRANSACTION-1761620694205",
+    "orderId": "ONSPOT-1761620694205",
+    "name": "Saputra",
+    "items": [
+      {
+        "id": 1761620667071,
+        "userId": 1761459268945,
+        "productId": 1759815739707,
+        "name": "Paket Brownis",
+        "price": 40000,
+        "category": "Food",
+        "image": "/products/img/1760058638427.jpg",
+        "quantity": 1,
+        "createdAt": "2025-10-28T03:04:27.071Z"
+      }
+    ],
+    "totalPrice": 36000,
+    "paymentMethod": "Metode Pembayaran Online",
+    "tableNumber": "",
+    "address": "",
+    "phoneNumber": "",
+    "transactionType": "wrap",
+    "status": "pending",
+    "createdAt": "2025-10-28T03:04:54.381Z",
+    "paymentUrl": "https://app.sandbox.midtrans.com/snap/v4/redirection/6f457f99-49ec-4b7a-89f5-35551071f37a",
+    "transactionToken": "6f457f99-49ec-4b7a-89f5-35551071f37a"
+  },
+  {
+    "userId": 1761459268945,
+    "transactionId": "TRANSACTION-1761620901841",
+    "orderId": "DELIVERY-1761620901841",
+    "name": "Saputra",
+    "items": [
+      {
+        "id": 1761620870635,
+        "userId": 1761459268945,
+        "productId": 1760058850153,
+        "name": "Paket Chroissan",
+        "price": 30000,
+        "category": "Drink",
+        "image": "/products/img/1760058850146.jpg",
+        "quantity": 1,
+        "createdAt": "2025-10-28T03:07:50.635Z"
+      }
+    ],
+    "totalPrice": 27000,
     "paymentMethod": "Midtrans",
     "tableNumber": "",
     "address": "RT : 01, RW:04, Dukuh Depok, Desa Pejagoan, Kecamatan Pejagoan, Kabupaten Kebumen, Provinsi Jawa Tengah",
     "phoneNumber": "085727165906",
     "transactionType": "delivery",
-    "status": "settlement",
-    "createdAt": "2025-10-18T01:12:04.868Z",
-    "paymentUrl": "https://app.sandbox.midtrans.com/snap/v4/redirection/c0d4e2e7-cf98-47b0-8a96-ca3dafeae3c4",
-    "transactionToken": "c0d4e2e7-cf98-47b0-8a96-ca3dafeae3c4",
-    "updatedAt": "2025-10-18T01:12:29.727Z"
-  },
-  {
-    "transactionId": "TRANSACTION-1760750747864",
-    "orderId": "ONSPOT-1760750747864",
-    "name": "Rukhan",
-    "items": [
-      {
-        "id": 1760750721456,
-        "userId": 1759979169531,
-        "productId": 1760058980851,
-        "name": "Latte",
-        "price": 15000,
-        "category": "Drink",
-        "image": "/products/img/1760058980847.jpg",
-        "quantity": 1,
-        "createdAt": "2025-10-18T01:25:21.456Z"
-      }
-    ],
-    "totalPrice": 15000,
-    "paymentMethod": "Manual via Kasir",
-    "tableNumber": 1,
-    "address": "",
-    "phoneNumber": "",
-    "transactionType": "on-the-spot",
     "status": "pending",
-    "createdAt": "2025-10-18T01:25:47.867Z",
-    "paymentUrl": "https://cd4f4f85fbde.ngrok-free.app/guest/transaction"
+    "createdAt": "2025-10-28T03:08:22.224Z",
+    "paymentUrl": "https://app.sandbox.midtrans.com/snap/v4/redirection/3c9e2116-5888-47a3-9cce-befb0f8d552d",
+    "transactionToken": "3c9e2116-5888-47a3-9cce-befb0f8d552d"
   },
   {
-    "transactionId": "TRANSACTION-1760769611095",
-    "orderId": "ONSPOT-1760769611095",
-    "name": "JokowiYNTKTS",
+    "userId": 1761459268945,
+    "transactionId": "TRANSACTION-1761620938729",
+    "orderId": "DELIVERY-1761620938729",
+    "name": "Saputra",
     "items": [
       {
-        "id": 1760769581515,
-        "userId": 1760769517697,
-        "productId": 1759815739707,
-        "name": "Paket Brownis",
-        "price": 40000,
-        "category": "Food",
-        "image": "/products/img/1760058638427.jpg",
+        "id": 1761620916669,
+        "userId": 1761459268945,
+        "productId": 1760058850153,
+        "name": "Paket Chroissan",
+        "price": 30000,
+        "category": "Drink",
+        "image": "/products/img/1760058850146.jpg",
         "quantity": 1,
-        "createdAt": "2025-10-18T06:39:41.515Z"
+        "createdAt": "2025-10-28T03:08:36.669Z"
       }
     ],
-    "totalPrice": 40000,
-    "paymentMethod": "Metode Pembayaran Online",
-    "tableNumber": 1,
-    "address": "",
-    "phoneNumber": "",
-    "transactionType": "on-the-spot",
-    "status": "sending",
-    "createdAt": "2025-10-18T06:40:11.564Z",
-    "paymentUrl": "https://app.sandbox.midtrans.com/snap/v4/redirection/28e112b7-152e-470a-9ee5-c53885f4cdf2",
-    "transactionToken": "28e112b7-152e-470a-9ee5-c53885f4cdf2",
-    "updatedAt": "2025-10-19T02:05:05.159Z"
+    "totalPrice": 30000,
+    "paymentMethod": "Midtrans",
+    "tableNumber": "",
+    "address": "RT : 001",
+    "phoneNumber": "085727165906",
+    "transactionType": "delivery",
+    "status": "pending",
+    "createdAt": "2025-10-28T03:08:58.893Z",
+    "paymentUrl": "https://app.sandbox.midtrans.com/snap/v4/redirection/b9cceddf-08c6-4302-87dc-0fecedab4608",
+    "transactionToken": "b9cceddf-08c6-4302-87dc-0fecedab4608"
   },
   {
-    "transactionId": "TRANSACTION-1760952566100",
-    "orderId": "ONSPOT-1760952566100",
-    "name": "Rukhan",
+    "userId": 1761459268945,
+    "transactionId": "TRANSACTION-1761699091078",
+    "orderId": "ONSPOT-1761699091078",
+    "name": "Saputra",
     "items": [
       {
-        "id": 1760945889291,
-        "userId": 1760944021708,
+        "id": 1761697239890,
+        "userId": 1761459268945,
         "productId": 1760058766236,
         "name": "Paket Cappuccino",
         "price": 15000,
         "category": "Drink",
         "image": "/products/img/1760058766231.jpg",
         "quantity": 1,
-        "createdAt": "2025-10-20T07:38:09.291Z"
-      },
-      {
-        "id": 1760945947480,
-        "userId": 1760944021708,
-        "productId": 1760058922795,
-        "name": "Esspreso",
-        "price": 12000,
-        "category": "Drink",
-        "image": "/products/img/1760058922791.jpg",
-        "quantity": 1,
-        "createdAt": "2025-10-20T07:39:07.480Z"
+        "createdAt": "2025-10-29T00:20:39.890Z"
       }
     ],
-    "totalPrice": 27000,
-    "paymentMethod": "Metode Pembayaran Online",
-    "tableNumber": 8,
+    "totalPrice": 13500,
+    "paymentMethod": "Manual via Kasir",
+    "tableNumber": 2,
     "address": "",
     "phoneNumber": "",
     "transactionType": "on-the-spot",
     "status": "pending",
-    "createdAt": "2025-10-20T09:29:26.525Z",
-    "paymentUrl": "https://app.sandbox.midtrans.com/snap/v4/redirection/384232cc-8c0d-44fa-ba39-fe3b5a41f981",
-    "transactionToken": "384232cc-8c0d-44fa-ba39-fe3b5a41f981"
+    "createdAt": "2025-10-29T00:51:31.082Z",
+    "paymentUrl": "http://localhost:3000/guest/transaction"
   }
 ]

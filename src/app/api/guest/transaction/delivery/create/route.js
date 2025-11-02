@@ -6,7 +6,7 @@ import path from "path"
 export async function POST(req) {
   try {
     const body = await req.json()
-    const { items, totalPrice, paymentMethod, tableNumber, name, address, phoneNumber, transactionType } = body
+    const { userId, items, totalPrice, paymentMethod, tableNumber, name, address, phoneNumber, transactionType } = body
 
     if (!items || !totalPrice || !paymentMethod || !name || !transactionType) {
       return NextResponse.json({ error: "Data transaksi tidak lengkap" }, { status: 400 })
@@ -27,10 +27,12 @@ export async function POST(req) {
     try { orderList = JSON.parse(await fs.readFile(orderListFile, "utf-8")) } catch { orderList = [] }
 
     const orderId = `DELIVERY-${Date.now()}`
+    const transactionId = `TRANSACTION-${Date.now()}`
     let transactionData = null
     let paymentUrl = null
     let transactionToken = null
 
+    // Kurangi stok produk
     for (const item of items) {
       const productIndex = products.findIndex(p => p.id === item.productId)
       if (productIndex !== -1) {
@@ -44,13 +46,15 @@ export async function POST(req) {
 
     await fs.writeFile(productFile, JSON.stringify(products, null, 2), "utf-8")
 
+    // Hapus dari daftar pesanan
     const purchasedIds = items.map(item => item.productId)
     orderList = orderList.filter(order => !purchasedIds.includes(order.productId))
     await fs.writeFile(orderListFile, JSON.stringify(orderList, null, 2), "utf-8")
 
     if (paymentMethod === "Manual via Kasir") {
       transactionData = {
-        transactionId: orderId,
+        userId: userId || null,
+        transactionId,
         orderId,
         name,
         items,
@@ -70,11 +74,16 @@ export async function POST(req) {
         serverKey: process.env.MIDTRANS_SERVER_KEY
       })
 
+      // Hanya gunakan totalPrice dari frontend
       const parameter = {
         transaction_details: { order_id: orderId, gross_amount: totalPrice },
-        item_details: items.map(item => ({ id: item.productId.toString(), price: item.price, quantity: item.quantity, name: item.name })),
         credit_card: { secure: true },
-        customer_details: { first_name: name, email: "guest@example.com", phone: phoneNumber || "", address: address || "" },
+        customer_details: {
+          first_name: name,
+          email: "guest@example.com",
+          phone: phoneNumber || "",
+          address: address || ""
+        },
         callbacks: { finish: `${process.env.NEXT_PUBLIC_BASE_URL}/guest/transaction` }
       }
 
@@ -83,7 +92,8 @@ export async function POST(req) {
       paymentUrl = transaction.redirect_url
 
       transactionData = {
-        transactionId: orderId,
+        userId: userId || null,
+        transactionId,
         orderId,
         name,
         items,

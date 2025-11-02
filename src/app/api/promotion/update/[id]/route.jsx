@@ -1,9 +1,11 @@
 import { promises as fs } from "fs"
 import path from "path"
 
-export async function POST(req) {
+export async function PUT(req, { params }) {
   try {
+    const { id } = params
     const formData = await req.formData()
+
     const title = formData.get("title")
     const description = formData.get("description")
     const startDate = formData.get("startDate")
@@ -20,8 +22,32 @@ export async function POST(req) {
 
     await fs.mkdir(imgDir, { recursive: true })
 
-    let imagePath = null
+    const fileData = await fs.readFile(promotionsFile, "utf-8")
+    let promotions = JSON.parse(fileData)
+
+    const index = promotions.findIndex((promo) => promo.id === Number(id))
+    if (index === -1) {
+      return new Response(
+        JSON.stringify({ message: "Promotion not found" }),
+        { status: 404 }
+      )
+    }
+
+    let imagePath = promotions[index].image
+
+    // Jika ada gambar baru dikirimkan
     if (image && image.name) {
+      // Hapus gambar lama jika ada
+      if (promotions[index].image) {
+        const oldImagePath = path.join(process.cwd(), "public", promotions[index].image)
+        try {
+          await fs.unlink(oldImagePath)
+        } catch (err) {
+          console.warn("Old image not found or already deleted:", oldImagePath)
+        }
+      }
+
+      // Simpan gambar baru
       const buffer = Buffer.from(await image.arrayBuffer())
       const imgFileName = `${Date.now()}-${image.name}`
       const filePath = path.join(imgDir, imgFileName)
@@ -29,16 +55,8 @@ export async function POST(req) {
       imagePath = `/promotion/img/${imgFileName}`
     }
 
-    let promotions = []
-    try {
-      const fileData = await fs.readFile(promotionsFile, "utf-8")
-      promotions = JSON.parse(fileData)
-    } catch (error) {
-      promotions = []
-    }
-
-    const newPromotion = {
-      id: Date.now(),
+    promotions[index] = {
+      ...promotions[index],
       title,
       description,
       startDate,
@@ -48,21 +66,19 @@ export async function POST(req) {
       limitQuota,
       amount,
       image: imagePath,
-      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     }
-
-    promotions.push(newPromotion)
 
     await fs.writeFile(promotionsFile, JSON.stringify(promotions, null, 2), "utf-8")
 
     return new Response(
-      JSON.stringify({ message: "Promotion created successfully", data: newPromotion }),
-      { status: 201 }
+      JSON.stringify({ message: "Promotion updated successfully", data: promotions[index] }),
+      { status: 200 }
     )
   } catch (error) {
     console.error(error)
     return new Response(
-      JSON.stringify({ message: "Error saving promotion", error: error.message }),
+      JSON.stringify({ message: "Error updating promotion", error: error.message }),
       { status: 500 }
     )
   }

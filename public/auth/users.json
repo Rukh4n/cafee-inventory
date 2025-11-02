@@ -1,10 +1,18 @@
 [
   {
-    "id": 1760944021708,
-    "name": "Rukhan",
-    "email": "rukhan@gmail.com",
+    "id": 1761459196898,
+    "name": "Nur Rukhan Saputra",
+    "email": "nurrukhans@gmail.com",
     "password": "asdfasdf",
     "role": "admin",
-    "createdAt": "2025-10-20T07:07:01.708Z"
+    "createdAt": "2025-10-26T06:13:16.898Z"
+  },
+  {
+    "id": 1761459268945,
+    "name": "Saputra",
+    "email": "rukhansaputra225@gmail.com",
+    "password": "asdfasdf",
+    "role": "guest",
+    "createdAt": "2025-10-26T06:14:28.945Z"
   }
 ]

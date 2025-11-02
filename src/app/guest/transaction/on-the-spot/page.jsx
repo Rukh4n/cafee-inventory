@@ -11,15 +11,22 @@ const Page = () => {
   const searchParams = useSearchParams()
   const router = useRouter()
   const [parsedData, setParsedData] = useState({ selectedItems: [], totalPrice: 0 })
+  const [finalTotal, setFinalTotal] = useState(0)
   const [loading, setLoading] = useState(false)
   const [snapUrl, setSnapUrl] = useState(null)
   const [tableNumber, setTableNumber] = useState("")
   const [userName, setUserName] = useState("Guest")
+  const [userId, setUserId] = useState(null)
+  const [voucherCode, setVoucherCode] = useState("")
+  const [voucherLoading, setVoucherLoading] = useState(false)
 
   const paymentMethods = ["Manual via Kasir", "Metode Pembayaran Online"]
 
   useEffect(() => {
-    if (session?.user?.name) setUserName(session.user.name)
+    if (session?.user) {
+      setUserName(session.user.name || "Guest")
+      setUserId(session.user.id || null)
+    }
   }, [session])
 
   useEffect(() => {
@@ -28,6 +35,7 @@ const Page = () => {
       try {
         const data = JSON.parse(decodeURIComponent(dataParam))
         setParsedData(data)
+        setFinalTotal(data.totalPrice)
       } catch (error) {
         console.error("Failed to parse dataParam:", error)
       }
@@ -41,12 +49,13 @@ const Page = () => {
     }
 
     const payload = {
+      userId: userId,
       items: parsedData.selectedItems,
-      totalPrice: parsedData.totalPrice,
+      totalPrice: finalTotal,
       paymentMethod: method,
       tableNumber: Number(tableNumber),
       name: userName,
-      transactionType: "on-the-spot"
+      transactionType: "on-the-spot",
     }
 
     try {
@@ -62,7 +71,7 @@ const Page = () => {
         if (method === "Manual via Kasir") {
           router.push("/guest/transaction")
         } else if (data.paymentUrl) {
-          setSnapUrl(data.paymentUrl) // tampilkan modal iframe
+          setSnapUrl(data.paymentUrl)
         }
       } else {
         alert("Transaksi gagal. Cek console untuk detail.")
@@ -71,6 +80,33 @@ const Page = () => {
       alert("Terjadi kesalahan saat membuat transaksi.")
     } finally {
       setLoading(false)
+    }
+  }
+
+  const checkVoucher = async () => {
+    if (!voucherCode) {
+      alert("Masukkan kode voucher terlebih dahulu.")
+      return
+    }
+
+    try {
+      setVoucherLoading(true)
+      const res = await fetch("/api/guest/promotion/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: voucherCode, totalPrice: finalTotal }),
+      })
+      const data = await res.json()
+      if (data.success) {
+        setFinalTotal(data.newTotal)
+        alert("Voucher berhasil diterapkan!")
+      } else {
+        alert(data.message || "Voucher tidak valid.")
+      }
+    } catch (error) {
+      alert("Terjadi kesalahan saat mengecek voucher.")
+    } finally {
+      setVoucherLoading(false)
     }
   }
 
@@ -94,9 +130,38 @@ const Page = () => {
               className="w-full p-3 rounded-md border border-[#D4C9BE] bg-transparent text-[#D4C9BE] placeholder-[#AFA79D] focus:outline-none"
             />
           </div>
+
+          <div className="mb-6">
+            <label className="block mb-2 font-medium">Voucher</label>
+            <div className="flex gap-3">
+              <input
+                type="text"
+                value={voucherCode}
+                onChange={(e) => setVoucherCode(e.target.value)}
+                placeholder="Masukkan kode voucher"
+                className="flex-1 p-3 rounded-md border border-[#D4C9BE] bg-transparent text-[#D4C9BE] placeholder-[#AFA79D] focus:outline-none"
+              />
+              <button
+                onClick={checkVoucher}
+                disabled={voucherLoading}
+                className="px-4 py-3 rounded-md bg-[#6B5B95] hover:bg-[#5a4c7e] text-white font-semibold"
+              >
+                {voucherLoading ? "Memeriksa..." : "Cek"}
+              </button>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <TransactionList selectedItems={parsedData.selectedItems} totalPrice={parsedData.totalPrice} />
-            <PaymentMethods methods={paymentMethods} onPay={handlePayment} loading={loading} />
+            <TransactionList
+              selectedItems={parsedData.selectedItems}
+              totalPrice={parsedData.totalPrice}
+              onTotalChange={(newTotal) => setFinalTotal(newTotal)}
+            />
+            <PaymentMethods
+              methods={paymentMethods}
+              onPay={handlePayment}
+              loading={loading}
+            />
           </div>
           <PaymentModal snapUrl={snapUrl} onClose={closeModal} />
         </>

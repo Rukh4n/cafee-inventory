@@ -21,6 +21,7 @@ const Page = () => {
   const [loading, setLoading] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const [paymentUrl, setPaymentUrl] = useState("")
+  const [finalTotal, setFinalTotal] = useState(0)
 
   useEffect(() => {
     if (session?.user?.name) {
@@ -34,6 +35,7 @@ const Page = () => {
         const decoded = decodeURIComponent(dataParam)
         const jsonData = JSON.parse(decoded)
         setParsedData(jsonData)
+        setFinalTotal(jsonData.totalPrice)
       } catch (error) {
         console.error("Gagal memparsing data:", error)
       }
@@ -43,6 +45,10 @@ const Page = () => {
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handleVoucherApply = (newTotal) => {
+    setFinalTotal(newTotal)
   }
 
   const handlePayment = async () => {
@@ -57,8 +63,9 @@ const Page = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          userId: session?.user?.id || null,
           items: parsedData.selectedItems,
-          totalPrice: parsedData.totalPrice,
+          totalPrice: finalTotal,
           paymentMethod: "Midtrans",
           name: formData.name,
           phoneNumber: formData.phoneNumber,
@@ -91,7 +98,7 @@ const Page = () => {
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-2 gap-6 text-[#F1EFEC]">
-      <OrderDetail parsedData={parsedData} />
+      <OrderDetail parsedData={parsedData} onApplyVoucher={handleVoucherApply} />
       <DeliveryForm
         formData={formData}
         handleChange={handleChange}

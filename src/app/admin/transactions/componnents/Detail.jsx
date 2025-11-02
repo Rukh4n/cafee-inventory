@@ -1,7 +1,36 @@
+"use client"
 import React from 'react'
 
 const Detail = ({ transaction }) => {
   if (!transaction) return null
+
+  const handleDownload = () => {
+    let content = `Transaction Detail\n\n`
+    content += `ID: ${transaction.transactionId}\n`
+    content += `Customer Name: ${transaction.name}\n`
+    content += `Transaction Type: ${transaction.transactionType}\n`
+    content += `Status: ${transaction.status}\n`
+    content += `Payment Method: ${transaction.paymentMethod}\n`
+    content += `Total Price: Rp${transaction.totalPrice}\n`
+    content += `Created At: ${new Date(transaction.createdAt).toLocaleString()}\n\n`
+    content += `Items:\n`
+
+    if (transaction.items && transaction.items.length > 0) {
+      transaction.items.forEach((item) => {
+        content += `${item.name} x ${item.quantity} = Rp${item.price * item.quantity}\n`
+      })
+    } else {
+      content += `Tidak ada item.\n`
+    }
+
+    const blob = new Blob([content], { type: 'text/plain' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `transaction_${transaction.transactionId}.txt`
+    a.click()
+    URL.revokeObjectURL(url)
+  }
 
   return (
     <div
@@ -22,32 +51,26 @@ const Detail = ({ transaction }) => {
           <strong>ID:</strong>
           <span>{transaction.transactionId}</span>
         </div>
-
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <strong>Customer Name:</strong>
           <span>{transaction.name}</span>
         </div>
-
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <strong>Transaction Type:</strong>
           <span>{transaction.transactionType}</span>
         </div>
-
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <strong>Status:</strong>
           <span>{transaction.status}</span>
         </div>
-
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <strong>Payment Method:</strong>
           <span>{transaction.paymentMethod}</span>
         </div>
-
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <strong>Total Price:</strong>
           <span>Rp{transaction.totalPrice}</span>
         </div>
-
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <strong>Created At:</strong>
           <span>{new Date(transaction.createdAt).toLocaleString()}</span>
@@ -85,6 +108,24 @@ const Detail = ({ transaction }) => {
               <div>Tidak ada item.</div>
             )}
           </div>
+        </div>
+
+        <div style={{ marginTop: '20px' }}>
+          <button
+            onClick={handleDownload}
+            style={{
+              width: '100%',
+              padding: '12px 20px',
+              backgroundColor: '#D4C9BE',
+              color: '#030303',
+              border: 'none',
+              borderRadius: '6px',
+              cursor: 'pointer',
+              fontWeight: 'bold',
+            }}
+          >
+            Download
+          </button>
         </div>
       </div>
     </div>

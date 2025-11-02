@@ -1,15 +1,16 @@
 [
   {
-    "id": 1761396736049,
-    "title": "Promo 10 10",
-    "description": "keterangan",
-    "discount": null,
-    "startDate": "2025-10-29",
-    "endDate": "2025-11-01",
+    "id": 1761441037898,
+    "title": "Promo 11.11",
+    "description": "Keterangan promosi",
+    "startDate": "2025-10-10",
+    "endDate": "2025-11-11",
+    "promoCode": "PROMO11111111ST1",
     "percentage": "10",
     "limitQuota": "100",
-    "amount": null,
-    "image": null,
-    "createdAt": "2025-10-25T12:52:16.049Z"
+    "amount": 6,
+    "image": "/promotion/img/1761443020615-iPhone-13-PRO-template-cafee.vercel.app.png",
+    "createdAt": "2025-10-26T01:10:37.898Z",
+    "updatedAt": "2025-10-26T01:43:40.620Z"
   }
 ]

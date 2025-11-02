@@ -6,6 +6,7 @@ export async function GET(req) {
   try {
     const { searchParams } = new URL(req.url)
     const query = searchParams.get("query")?.toLowerCase() || ""
+    const userId = searchParams.get("userId")
 
     const transactionFile = path.join(process.cwd(), "public", "transaction", "transactions.json")
 
@@ -15,6 +16,13 @@ export async function GET(req) {
       transactions = JSON.parse(data)
     } catch {
       transactions = []
+    }
+
+    // Filter berdasarkan userId jika ada
+    if (userId) {
+      transactions = transactions.filter((tx) =>
+        tx.items.some((item) => String(item.userId) === String(userId))
+      )
     }
 
     // Filter pencarian jika ada query
